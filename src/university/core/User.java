@@ -7,10 +7,10 @@ import university.models.news.*;
 import university.models.other.*;
 public abstract class User implements Notifiable  {
 
-	private String id = "24B03110";
-	private String firstName = "Nurs";
-	private String lastName= "Tair";
-	private String email = "n@gmail.com";
+	private String id;
+	private String firstName;
+	private String lastName;
+	private String email;
 	private String password;
 	private List<Journal> attendanceJournals;
 	//Previous SubsсribedJournals not understandable 
