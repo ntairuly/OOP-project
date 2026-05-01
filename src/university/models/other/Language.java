@@ -14,13 +14,68 @@ public enum Language {
 	private String curLanguage = "EN";
 
 	Language() {
-		// ADD translations here like
-		// path(class name + purpose), en, ru, kz
-		// you can ACCESS words from Language.INSTANCE.get(path)
-		add("User.toString", "User[id=%s, name=%s, email=%s]", 
-		"Пользователь[id=%s, имя=%s, email=%s]", 
-		"Пайдаланушы[id=%s, аты=%s, email=%s]" );
-	}
+    // ADD translations here like
+    // path(class name + purpose), en, ru, kz
+    // you can ACCESS words from Language.INSTANCE.get(path)
+
+
+	//toStrings:
+    add("User.toString", "User[id=%s, name=%s, email=%s]", 
+        "Пользователь[id=%s, имя=%s, email=%s]", 
+        "Пайдаланушы[id=%s, аты=%s, email=%s]");
+
+
+	//UniversitySystem:
+    add("UniversitySystem.getEmail", "User name(email): ",
+        "Имя пользователя(email): ", 
+        "Пайдаланушы есімі(email): ");
+
+    add("UniversitySystem.getPw", "Password:",
+        "Пароль:", 
+        "Құпия сөз:");
+
+    add("UniversitySystem.successlog", "Success of login\n",
+        "Вход выполнен успешно\n", 
+        "Жүйеге сәтті кірдіңіз\n");
+
+    add("UniversitySystem.pwChange", "Change your password!\n",
+        "Смените свой пароль!\n", 
+        "Құпия сөзіңізді өзгертіңіз!\n");
+
+    add("UniversitySystem.logError", 
+        "The login information you entered is incorrect\n",
+        "Введенные данные для входа неверны\n", 
+        "Енгізілген логин мәліметтері қате\n");
+
+    add("UniversitySystem.pwCur", "Current password:",
+        "Текущий пароль:", 
+        "Қазіргі құпия сөз:");
+
+    add("UniversitySystem.pwNew", "New password: ",
+        "Новый пароль: ", 
+        "Жаңа құпия сөз: ");
+
+    add("UniversitySystem.pwConfirm", "Confirm password: ",
+        "Подтвердите пароль: ", 
+        "Құпия сөзді растаңыз: ");
+
+	//User
+	add("User.pwUpdated", "Password updated", 
+   		"Пароль обновлен", 
+    	"Құпия сөз жаңартылды");
+
+	add("User.pwTooShort", "Too short password", 
+    	"Слишком короткий пароль", 
+    	"Құпия сөз тым қысқа");
+
+	add("User.pwMismatch", "Passwords mismatch.", 
+    	"Пароли не совпадают.", 
+    	"Құпия сөздер сәйкес келмейді.");
+
+	add("User.pwIncorrect", "Incorrect current password", 
+    	"Неверный текущий пароль", 
+    	"Қазіргі құпия сөз қате");
+}
 	
 	public void setLanguage(String newLanguage){
 		if (List.of("EN", "RU", "KZ").contains(newLanguage.toUpperCase())) {
