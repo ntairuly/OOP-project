@@ -2,7 +2,6 @@ package university.core;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 import university.models.news.*;
 import university.models.other.*;
 public abstract class User implements Notifiable  {
@@ -12,22 +11,28 @@ public abstract class User implements Notifiable  {
 	private String lastName;
 	private String email;
 	private String password;
-	private List<Journal> attendanceJournals;
-	//Previous SubsсribedJournals not understandable 
+	private List<Journal> SubsсribedJournals;
 
-	Scanner input = new Scanner(System.in); 
-
-	public boolean login() {
-		// TODO - implement User.login
-		
-		throw new UnsupportedOperationException();
+	public User(String id, String firstName, String lastName, String email, String password) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
 	}
 
-	public void logout() {
-		// TODO - implement User.logout
-		throw new UnsupportedOperationException();
+
+	//Used for login
+	public boolean checkPassword(String password){
+		return this.password.equals(password);
 	}
 
+	public String getEmail(){
+		return this.email;
+	}
+
+
+	//Overrides
 	@Override
 	public String toString() {
 		// Return only necessary fields: id, name, email
@@ -44,7 +49,6 @@ public abstract class User implements Notifiable  {
 
     @Override
 	public boolean equals(Object o) {
-		// TODO - implement User.equals
 		if (o == this) return true;
 		if (!(o instanceof User)){
 			return false;
