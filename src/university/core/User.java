@@ -3,9 +3,9 @@ package university.core;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import university.models.news.*;
 import university.models.other.*;
-//public abstract class User implements Notifiable 
-public class User {
+public abstract class User implements Notifiable  {
 
 	private String id = "24B03110";
 	private String firstName = "Nurs";
