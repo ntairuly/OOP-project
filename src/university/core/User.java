@@ -6,22 +6,21 @@ import university.models.news.*;
 import university.models.other.*;
 public abstract class User implements Notifiable  {
 
-	private String id;
-	private String firstName;
-	private String lastName;
+	protected boolean isFirstLogin = true; 
+	private String id = "Unknown";
+	private String firstName = "Unknown";
+	private String lastName = "Unknown";
 	private String email;
 	private String password;
 	private List<Journal> SubsсribedJournals;
 
-	public User(String id, String firstName, String lastName, String email, String password) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
 
 
+	
 	//Used for login
 	public boolean checkPassword(String password){
 		return this.password.equals(password);
@@ -29,6 +28,29 @@ public abstract class User implements Notifiable  {
 
 	public String getEmail(){
 		return this.email;
+	}
+
+
+	//Used to change password
+	public void changePassword(String curPassword, String newPassword, String repeatedPassword){
+		if (curPassword.equals(this.password) || isFirstLogin){
+			if (newPassword.equals(repeatedPassword)) {
+				if (newPassword.length() >= 8){
+					this.password = newPassword;
+					this.isFirstLogin = false;
+					System.out.println(Language.INSTANCE.get("User.pwUpdated"));
+				}
+				else {
+					System.out.println(Language.INSTANCE.get("User.pwTooShort"));
+				}
+			}
+			else {
+				System.out.println(Language.INSTANCE.get("User.pwMismatch"));
+			}
+		}
+		else {
+			System.out.println(Language.INSTANCE.get("User.pwIncorrect"));
+		}
 	}
 
 

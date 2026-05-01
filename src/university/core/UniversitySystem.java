@@ -1,60 +1,79 @@
 package university.core;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import university.models.other.Language;
 
 public class UniversitySystem {
     private static boolean isRunning = true;
-    private static boolean isLogedIn = false;
-    private static ArrayList<User> users = new ArrayList<>();
+    private static boolean isLoggedIn = false;
+    protected static List<User> users = new ArrayList<>();;
     private static String myEmail;
     private static String myPassword;
+    private static User myUser;
+    static Scanner input = new Scanner(System.in); 
     
+
+    static {
+        Admin.createSuperAdmin();
+    }
     public static void main(String[] args) {
         while (isRunning) {
-            Scanner input = new Scanner(System.in); 
-            if (isLogedIn) {
-                System.out.println("");
-            }
-            else {
-                //User data inputs for login
-                System.out.println("User name(email): ");
-		        myEmail = input.nextLine();
+            if (isLoggedIn) {
+                break;
+            } else {
+                System.out.println(Language.INSTANCE.get("UniversitySystem.getEmail"));
+                myEmail = input.nextLine();
 
-		        System.out.println("Password:");
-		        myPassword = input.nextLine();
+                System.out.println(Language.INSTANCE.get("UniversitySystem.getPw"));
+                myPassword = input.nextLine();
 
-                //Check if user has @ at the end
-		        if (!(myEmail.endsWith("@kbtu.kz"))){
-			        myEmail += "@kbtu.kz";
-		        }
-
-                //Actual login
-                isLogedIn = login(myEmail, myPassword);
-                if (isLogedIn){
-                    System.out.println("Success");
+                if (!(myEmail.endsWith("@kbtu.kz"))) {
+                    myEmail += "@kbtu.kz";
                 }
-                else {
-                    System.out.println("The login information you entered is incorrect.");
+
+                isLoggedIn = login(myEmail, myPassword);
+                
+                if (isLoggedIn) {
+                    System.out.println(Language.INSTANCE.get("UniversitySystem.successlog"));
+                    while (myUser.isFirstLogin) {
+                        System.out.println(Language.INSTANCE.get("UniversitySystem.pwChange"));
+                        changePasswordInput();
+                    }
+                } else {
+                    System.out.println(Language.INSTANCE.get("UniversitySystem.logError"));
                 }
             }
         }
     }
 
-
-    private static boolean login(String email, String password){
-        for( User u: users){
-            if (u.getEmail().equals(email) && u.checkPassword(password)){
+    private static boolean login(String email, String password) {
+        for (User u : users) {
+            if (u.getEmail().equals(email) && u.checkPassword(password)) {
+                myUser = u;
                 return true;
             }
         }
         return false;
     }
 
-
-    public static void logout(){
-        isLogedIn = false;
+    public static void logout() {
+        isLoggedIn = false;
         myEmail = "";
         myPassword = "";
+    }
+
+    public static void changePasswordInput() {
+        String curPassword = "";
+        if (!myUser.isFirstLogin) {
+            System.out.print(Language.INSTANCE.get("UniversitySystem.pwCur"));
+            curPassword = input.nextLine();
+        }
+        System.out.print(Language.INSTANCE.get("UniversitySystem.pwNew"));
+        String newPassword = input.nextLine();
+        System.out.print(Language.INSTANCE.get("UniversitySystem.pwConfirm"));
+        String repeatedPassword = input.nextLine();
+        myUser.changePassword(curPassword, newPassword, repeatedPassword);
     }
 }
