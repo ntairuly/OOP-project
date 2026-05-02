@@ -58,6 +58,38 @@ public enum Language {
     add("UniversitySystem.pwConfirm", "Confirm password: ",
         "Подтвердите пароль: ", 
         "Құпия сөзді растаңыз: ");
+	
+	add("UniversitySystem.logout", "Logout success",
+		"Выход успешен", 
+		"Шығу жасалынды");
+
+	add("UniversitySystem.menuTitle", "\n - Menu - \n", 
+		"\n - Меню - \n", 
+		"\n - Мәзір - \n");
+
+	add("UniversitySystem.menuOptions", "    Options", 
+		"    Опции", 
+		"    Опциялар");
+
+	add("UniversitySystem.optionProfile", "1. Profile", 
+		"1. Профиль", 
+		"1. Профиль");
+
+	add("UniversitySystem.optionPassword", "2. Change password", 
+		"2. Сменить пароль", 
+		"2. Құпия сөзді өзгерту");
+
+	add("UniversitySystem.optionLogout", "3. Logout", 
+		"3. Выйти", 
+		"3. Шығу");
+
+	add("UniversitySystem.chooseOption", "Choose option(number):", 
+		"Выберите опцию(число):", 
+		"Опцияны таңдаңыз(сан):");
+
+	add("UniversitySystem.invalidOption", "This option doesn't exist \nPlease try again", 
+		"Эта опция не существует \nПожалуйста, попробуйте еще раз", 
+		"Бұл опция жоқ \nҚайтадан байқап көріңіз");
 
 	//User
 	add("User.pwUpdated", "Password updated", 

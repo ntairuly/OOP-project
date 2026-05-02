@@ -1,10 +1,11 @@
-package university.core;
+package university.models.students;
 
 import java.util.List;
 import java.util.Map;
 import university.models.courses.*;
 import university.models.grading.*;
 import university.models.other.*;
+import university.core.*;
 
 
 

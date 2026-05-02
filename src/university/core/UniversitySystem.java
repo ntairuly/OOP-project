@@ -9,51 +9,63 @@ public class UniversitySystem {
     private static UniversitySystem obj;
 
 
-    private static boolean isRunning = true;
-    private static boolean isLoggedIn = false;
-    protected static List<User> users = new ArrayList<>();;
-    private static String myEmail;
-    private static String myPassword;
-    private static User myUser;
+    private boolean isRunning = true;
+    private boolean isLoggedIn = false;
+    protected List<User> users = new ArrayList<>();;
+    private String myEmail;
+    private String myPassword;
+    private User myUser;
     static Scanner input = new Scanner(System.in); 
     
-    private UniversitySystem() {
+    protected UniversitySystem() {
+        Admin.createSuperAdmin(this);
+    }
 
+    public List<User> getUsers() {
+        return users;
     }
-    static {
-        Admin.createSuperAdmin();
+
+    public static synchronized UniversitySystem getInstance(){
+        if (obj == null)
+            obj = new UniversitySystem();
+        return obj;
     }
-    public static void main(String[] args) {
-        while (isRunning) {
-            if (isLoggedIn) {
-                break;
+
+    public void start(){
+        while(isRunning){
+            if (isLoggedIn){
+                mainMenu();
             } else {
-                System.out.println(Language.INSTANCE.get("UniversitySystem.getEmail"));
-                myEmail = input.nextLine();
-
-                System.out.println(Language.INSTANCE.get("UniversitySystem.getPw"));
-                myPassword = input.nextLine();
-
-                if (!(myEmail.endsWith("@kbtu.kz"))) {
-                    myEmail += "@kbtu.kz";
-                }
-
-                isLoggedIn = login(myEmail, myPassword);
-                
-                if (isLoggedIn) {
-                    System.out.println(Language.INSTANCE.get("UniversitySystem.successlog"));
-                    while (myUser.isFirstLogin) {
-                        System.out.println(Language.INSTANCE.get("UniversitySystem.pwChange"));
-                        changePasswordInput();
-                    }
-                } else {
-                    System.out.println(Language.INSTANCE.get("UniversitySystem.logError"));
-                }
+                loginMenu();
             }
         }
     }
 
-    private static boolean login(String email, String password) {
+    private void loginMenu() {
+        System.out.print(Language.INSTANCE.get("UniversitySystem.getEmail"));
+        myEmail = input.nextLine();
+
+        System.out.print(Language.INSTANCE.get("UniversitySystem.getPw"));
+        myPassword = input.nextLine();
+
+        if (!(myEmail.endsWith("@kbtu.kz"))) {
+            myEmail += "@kbtu.kz";
+        }
+
+        isLoggedIn = login(myEmail, myPassword);
+                
+        if (isLoggedIn) {
+            System.out.println(Language.INSTANCE.get("UniversitySystem.successlog"));
+            while (myUser.isFirstLogin) {
+                System.out.println(Language.INSTANCE.get("UniversitySystem.pwChange"));
+                changePasswordInput();
+            }
+        } else {
+            System.out.println(Language.INSTANCE.get("UniversitySystem.logError"));
+        }
+            }
+
+    private boolean login(String email, String password) {
         for (User u : users) {
             if (u.getEmail().equals(email) && u.checkPassword(password)) {
                 myUser = u;
@@ -63,13 +75,15 @@ public class UniversitySystem {
         return false;
     }
 
-    public static void logout() {
+    private void logout() {
+        System.out.println(Language.INSTANCE.get("UniversitySystem.logout"));
         isLoggedIn = false;
         myEmail = "";
         myPassword = "";
+        myUser = null;
     }
 
-    public static void changePasswordInput() {
+    private void changePasswordInput() {
         String curPassword = "";
         if (!myUser.isFirstLogin) {
             System.out.print(Language.INSTANCE.get("UniversitySystem.pwCur"));
@@ -83,9 +97,23 @@ public class UniversitySystem {
     }
 
 
-    public static synchronized UniversitySystem getInstance(){
-        if (obj == null)
-            obj = new UniversitySystem();
-        return obj;
+    private void mainMenu(){
+        System.out.println(Language.INSTANCE.get("UniversitySystem.menuTitle"));
+        System.out.println(Language.INSTANCE.get("UniversitySystem.menuOptions"));
+        System.out.println(Language.INSTANCE.get("UniversitySystem.optionProfile"));
+        System.out.println(Language.INSTANCE.get("UniversitySystem.optionPassword"));
+        System.out.println(Language.INSTANCE.get("UniversitySystem.optionLogout"));
+        System.out.print(Language.INSTANCE.get("UniversitySystem.chooseOption") + " ");
+        String option = input.nextLine(); 
+        if (option.equals("1")){
+            System.out.println(this.myUser);
+        } else if (option.equals("2")){
+            changePasswordInput();
+        } else if (option.equals("3")){
+            logout();
+        } else {
+            System.out.println(("UniversitySystem.invalidOption"));
+        }
     }
+
 }
