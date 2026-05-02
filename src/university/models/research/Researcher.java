@@ -1,19 +1,35 @@
 package university.models.research;
 
+import java.util.Comparator;
 import java.util.List;
 
 public interface Researcher {
 
-	void printPapers();
+    List<ResearchPaper> getPapers();
+    void addPaper(ResearchPaper paper);
+    List<ResearchProject> getProjects();
+    void joinProject(ResearchProject project) throws NotAResearcherException;
 
-	int calculateHIndex();
+    default void printPapers(Comparator<ResearchPaper> comparator) {
+        getPapers().stream()
+                .sorted(comparator)
+                .forEach(System.out::println);
+    }
 
-	void addPaper();
+    default int calculateHIndex() {
+        List<ResearchPaper> papers = getPapers();
+        int[] citations = papers.stream()
+                .mapToInt(ResearchPaper::getCitations)
+                .boxed()
+                .sorted(Comparator.reverseOrder())
+                .mapToInt(Integer::intValue)
+                .toArray();
 
-	List<ResearchPaper> getPapers();
-
-	List<ResearchProject> getProjects();
-
-	void joinProject();
-
+        int h = 0;
+        for (int i = 0; i < citations.length; i++) {
+            if (citations[i] >= i + 1) h = i + 1;
+            else break;
+        }
+        return h;
+    }
 }
