@@ -1,5 +1,6 @@
 package university.models.students;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import university.models.courses.*;
@@ -21,22 +22,58 @@ public class Student extends User  {
 	private StudentOrganization organization;
 
 
-	public Student(String email, String password,String studentId,double gpa,int credits,int year,String major,List<Course> courses,int failCount, StudentOrganization organization){
-		super(email,password);
+
+	protected Student(String email, String password) {  // private!
+		super(email, password);
+		this.courses = new ArrayList<>();
+		this.gpa = 0.0;
+		this.credits = 0;
+		this.failCount = 0;
+	}
+
+	public static Student createStudent(String email, String password) {
+		return new Student(email, password);
+	}
+
+
+	public void setStudentId(String studentId) {
 		this.studentId = studentId;
-		this.gpa = gpa;
-		this.credits = credits;
+	}
+	public void setYear(int year) {
 		this.year = year;
+	}
+	public void setMajor(String major) {
 		this.major = major;
-		this.courses = courses;
-		this.failCount = failCount;
+	}
+	public void setOrganization(StudentOrganization organization) {
 		this.organization = organization;
 	}
 
 
+	public String getStudentId() {
+		return studentId;
+	}
+	public double getGpa() {
+		return gpa;
+	}
+	public int getCredits() {
+		return credits;
+	}
+	public int getYear() {
+		return year;
+	}
+	public String getMajor() {
+		return major;
+	}
+	public List<Course> getCourses() {
+		return courses;
+	}
+	public int getFailCount() {
+		return failCount;
+	}
+
 	public void registerForCourse() {
-		// TODO - implement Student.registerForCourse
-		throw new UnsupportedOperationException();
+
 	}
 
 	public Map<Course, Mark> viewMarks() {
@@ -54,9 +91,7 @@ public class Student extends User  {
 		throw new UnsupportedOperationException();
 	}
 
-	public double getGpa() {
-		return this.gpa;
-	}
+
 
 	@Override
 	public void update() {
@@ -64,9 +99,6 @@ public class Student extends User  {
 		throw new UnsupportedOperationException();
 	}
 
-	public String getStudentId() {
-		return studentId;
-	}
 
 	@Override
 	public String toString() {

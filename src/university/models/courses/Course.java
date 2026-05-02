@@ -6,6 +6,7 @@ import java.util.List;
 import university.core.*;
 import university.models.employee.*;
 import university.models.grading.*;
+import university.models.students.Student;
 
 public class Course {
 
@@ -18,6 +19,8 @@ public class Course {
 	private List<Student> enrolledStudents;
 	private String school;
 	private int targetYear;
+
+	public Course(String courseId,String name, int credits, CourseType courseType,List<Teacher> instructors,List<Lesson>lessons,)
 
 	public void addInstructor() {
 		// TODO - implement Course.addInstructor

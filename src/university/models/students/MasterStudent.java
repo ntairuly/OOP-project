@@ -1,14 +1,26 @@
 package university.models.students;
 
+import java.util.ArrayList;
 import java.util.List;
 import university.models.research.*;
 
 public class MasterStudent extends GraduateStudent implements Researcher {
 
 	private int maxCredits;
-	private int studyYears;
+	private int studyYears =2;
 	private List<ResearchPaper> papers;
 	private List<ResearchProject> projects;
+
+	private MasterStudent(String email, String password) {
+		super(email, password);
+		this.papers = new ArrayList<>();
+		this.projects = new ArrayList<>();
+	}
+
+	public static MasterStudent createMasterStudent(String email, String password) {
+		return new MasterStudent(email, password);
+	}
+
 
 	@Override
 	public void printPapers() {
@@ -31,7 +43,7 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 	public List<ResearchPaper> getPapers(){
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
 	public void joinProject() {
 		throw new UnsupportedOperationException();
