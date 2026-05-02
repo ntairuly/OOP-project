@@ -41,6 +41,8 @@ public class UniversitySystem {
         }
     }
 
+
+    //Login and main menu
     private void loginMenu() {
         System.out.print(Language.INSTANCE.get("UniversitySystem.getEmail"));
         myEmail = input.nextLine();
@@ -65,38 +67,6 @@ public class UniversitySystem {
         }
             }
 
-    private boolean login(String email, String password) {
-        for (User u : users) {
-            if (u.getEmail().equals(email) && u.checkPassword(password)) {
-                myUser = u;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void logout() {
-        System.out.println(Language.INSTANCE.get("UniversitySystem.logout"));
-        isLoggedIn = false;
-        myEmail = "";
-        myPassword = "";
-        myUser = null;
-    }
-
-    private void changePasswordInput() {
-        String curPassword = "";
-        if (!myUser.isFirstLogin) {
-            System.out.print(Language.INSTANCE.get("UniversitySystem.pwCur"));
-            curPassword = input.nextLine();
-        }
-        System.out.print(Language.INSTANCE.get("UniversitySystem.pwNew"));
-        String newPassword = input.nextLine();
-        System.out.print(Language.INSTANCE.get("UniversitySystem.pwConfirm"));
-        String repeatedPassword = input.nextLine();
-        myUser.changePassword(curPassword, newPassword, repeatedPassword);
-    }
-
-
     private void mainMenu(){
         System.out.println(Language.INSTANCE.get("UniversitySystem.menuTitle"));
         System.out.println(Language.INSTANCE.get("UniversitySystem.menuOptions"));
@@ -115,5 +85,42 @@ public class UniversitySystem {
             System.out.println(("UniversitySystem.invalidOption"));
         }
     }
+
+
+    //Login and logout logic
+    private boolean login(String email, String password) {
+        for (User u : users) {
+            if (u.getEmail().equals(email) && u.checkPassword(password)) {
+                myUser = u;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void logout() {
+        System.out.println(Language.INSTANCE.get("UniversitySystem.logout"));
+        isLoggedIn = false;
+        myEmail = "";
+        myPassword = "";
+        myUser = null;
+    }
+
+
+    //Change passwrod logic
+    private void changePasswordInput() {
+        String curPassword = "";
+        if (!myUser.isFirstLogin) {
+            System.out.print(Language.INSTANCE.get("UniversitySystem.pwCur"));
+            curPassword = input.nextLine();
+        }
+        System.out.print(Language.INSTANCE.get("UniversitySystem.pwNew"));
+        String newPassword = input.nextLine();
+        System.out.print(Language.INSTANCE.get("UniversitySystem.pwConfirm"));
+        String repeatedPassword = input.nextLine();
+        myUser.changePassword(curPassword, newPassword, repeatedPassword);
+    }
+
+
 
 }

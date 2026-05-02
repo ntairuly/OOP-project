@@ -13,6 +13,15 @@ public class Admin extends User {
 		super(email, password);
 	}
 
+	public static Admin createAdmin(String email, String password){
+		if (!(email.endsWith("@kbtu.kz"))) {
+            email += "@kbtu.kz";
+        }
+		
+		Admin newAdmin = new Admin(email, password);
+		return newAdmin;
+	}
+
 
 	protected static void createSuperAdmin(UniversitySystem uSystem){
 		if (uSystem != null) {
