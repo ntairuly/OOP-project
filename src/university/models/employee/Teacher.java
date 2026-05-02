@@ -1,9 +1,9 @@
 package university.models.employee;
 
 import java.util.List;
-import university.core.*;
 import university.models.courses.*;
 import university.models.research.*;
+import university.models.students.*;
 
 
 public class Teacher extends Employee implements Researcher {
@@ -12,6 +12,12 @@ public class Teacher extends Employee implements Researcher {
 	private List<Course> courses;
 	private double rating;
 	private boolean isProfessor;
+
+
+	public Teacher(String email, String password){
+		super(email, password);
+	}
+
 
 	public void putMark() {
 		// TODO - implement Teacher.putMark
@@ -62,4 +68,11 @@ public class Teacher extends Employee implements Researcher {
 	public void joinProject(){
 		throw new UnsupportedOperationException();
 	};
+
+	@Override
+	public void update(){
+		// TODO - implement Admin.update
+		throw new UnsupportedOperationException();
+	}
+
 }
