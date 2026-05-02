@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Admin extends User {
 
-	private static final Admin superAdmin = new Admin("superAdmin@kbtu.kz", "12345678");
 	private static List<String> logs;
 	private static String action;
 	static Scanner input = new Scanner(System.in); 
@@ -15,9 +14,10 @@ public class Admin extends User {
 	}
 
 
-	protected static void createSuperAdmin(){
-		if (UniversitySystem.users != null) {
-        	UniversitySystem.users.add(superAdmin);
+	protected static void createSuperAdmin(UniversitySystem uSystem){
+		if (uSystem != null) {
+            Admin superAdmin = new Admin("superAdmin@kbtu.kz", "SuperAdmin12345678");
+            uSystem.getUsers().add(superAdmin);
     	}
 	}
 
