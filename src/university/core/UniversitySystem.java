@@ -1,11 +1,14 @@
 package university.core;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import university.models.other.Language;
 
 public class UniversitySystem {
+    private static UniversitySystem obj;
+
+
     private static boolean isRunning = true;
     private static boolean isLoggedIn = false;
     protected static List<User> users = new ArrayList<>();;
@@ -14,7 +17,9 @@ public class UniversitySystem {
     private static User myUser;
     static Scanner input = new Scanner(System.in); 
     
+    private UniversitySystem() {
 
+    }
     static {
         Admin.createSuperAdmin();
     }
@@ -75,5 +80,12 @@ public class UniversitySystem {
         System.out.print(Language.INSTANCE.get("UniversitySystem.pwConfirm"));
         String repeatedPassword = input.nextLine();
         myUser.changePassword(curPassword, newPassword, repeatedPassword);
+    }
+
+
+    public static synchronized UniversitySystem getInstance(){
+        if (obj == null)
+            obj = new UniversitySystem();
+        return obj;
     }
 }
