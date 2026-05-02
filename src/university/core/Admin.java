@@ -10,7 +10,7 @@ public class Admin extends User {
 	private static String action;
 	static Scanner input = new Scanner(System.in); 
 
-	protected Admin(String email, String password) {
+	private Admin(String email, String password) {
 		super(email, password);
 	}
 
