@@ -9,7 +9,7 @@ import university.core.*;
 
 
 
-public class Student extends User {
+public class Student extends User  {
 
 	private String studentId;
 	private double gpa;
@@ -19,6 +19,20 @@ public class Student extends User {
 	private List<Course> courses;
 	private int failCount;
 	private StudentOrganization organization;
+
+
+	public Student(String email, String password,String studentId,double gpa,int credits,int year,String major,List<Course> courses,int failCount, StudentOrganization organization){
+		super(email,password);
+		this.studentId = studentId;
+		this.gpa = gpa;
+		this.credits = credits;
+		this.year = year;
+		this.major = major;
+		this.courses = courses;
+		this.failCount = failCount;
+		this.organization = organization;
+	}
+
 
 	public void registerForCourse() {
 		// TODO - implement Student.registerForCourse
@@ -44,4 +58,21 @@ public class Student extends User {
 		return this.gpa;
 	}
 
+	@Override
+	public void update() {
+		// TODO - implement Student.update
+		throw new UnsupportedOperationException();
+	}
+
+	public String getStudentId() {
+		return studentId;
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				Language.INSTANCE.get("Student.toString"),
+				studentId, gpa, year, major
+		);
+	}
 }

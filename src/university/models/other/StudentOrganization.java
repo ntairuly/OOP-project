@@ -2,6 +2,7 @@ package university.models.other;
 
 import java.util.List;
 import university.core.*;
+import university.models.students.Student;
 
 public class StudentOrganization {
 
