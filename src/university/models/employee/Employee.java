@@ -10,7 +10,7 @@ public abstract class Employee extends User {
 	private String department;
 
 
-	public Employee(String email, String password){
+	protected Employee(String email, String password){
 		super(email, password);
 	}
 

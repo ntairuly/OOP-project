@@ -9,8 +9,12 @@ public class Manager extends Employee {
 	private ManagerType managerType;
 	private List<Message> pendingRequests;
 
-	public Manager(String email, String password){
+	protected Manager(String email, String password){
 		super(email, password);
+	}
+
+	public static Manager createManager(String email, String password){
+		return new Manager(email, password);
 	}
 
 	public boolean approveRegistration() {
