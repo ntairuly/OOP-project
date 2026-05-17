@@ -41,6 +41,10 @@ public class Course {
 		return name;
 	}
 
+	public String getCourseId() {
+		return courseId;
+	}
+
 	public void addInstructor() {
 		// TODO - implement Course.addInstructor
 		throw new UnsupportedOperationException();

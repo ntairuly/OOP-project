@@ -1,7 +1,11 @@
 package university.models.students;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import university.core.UniversitySystem;
+import university.exceptions.LowHIndexException;
 import university.models.research.*;
 
 public class MasterStudent extends GraduateStudent implements Researcher {
@@ -57,6 +61,161 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 			projects.add(project);
 		}
 	}
+
+
+	@Override
+	public void userMenu() {
+		String menuView = """
+				--Master Student Panel--
+				register - register for a course
+				marks    - view marks
+				gpa      - view current GPA
+				trans    - view transcript
+				courses  - view registered courses
+				rate     - rate a teacher
+				-- research --
+				papers   - view my papers
+				hindex   - view h-index
+				super    - set supervisor
+				diploma  - submit diploma
+				join     - join research project
+				-- account --
+				change   - change password
+				info     - get info about yourself
+				""";
+		System.out.println(menuView);
+
+
+		String command = input.nextLine().trim().toLowerCase();
+		switch (command) {
+
+			case "register":
+				registerForCourseInput();
+				break;
+			case "marks":
+				viewMarks();
+				break;
+			case "gpa":
+				System.out.println("Current GPA: " + String.format("%.2f", getGpa()));
+				break;
+			case "trans":
+				System.out.println(getTranscript());
+				break;
+			case "courses":
+				viewRegisteredCourses();
+				break;
+			case "rate":
+				rateTeacherInput();
+				break;
+			case "papers":
+				viewPapers();
+				break;
+			case "hindex":
+				System.out.println("Your h-index: " + calculateHIndex());
+				break;
+			case "super":
+				setSupervisorInput();
+				break;
+			case "diploma":
+				submitDiplomaInput();
+				break;
+			case "join":
+				joinProjectInput();
+				break;
+			case "change":
+				changePasswordInput();
+				break;
+			case "info":
+				System.out.println(this);
+				break;
+			default:
+				System.out.println("Not available option");
+				break;
+		}
+
+	}
+
+
+
+
+
+	private void viewPapers(){
+		if (papers.isEmpty()) {
+			System.out.println("No papers yet");
+			return;
+		}
+		System.out.println("--- My papers ---");
+		printPapers(Comparator.comparingInt(ResearchPaper::getCitations).reversed());
+
+	}
+
+
+
+
+	private void setSupervisorInput() {
+		System.out.print("Enter supervisor email: ");
+		String email = input.nextLine().trim();
+		var user = UniversitySystem.getInstance().findUserByEmail(email);
+		if (user == null) {
+			System.out.println("User not found: " + email);
+			return;
+		}
+		if (!(user instanceof Researcher)) {
+			System.out.println("This user is not a Researcher and cannot be your supervisor");
+			return;
+		}
+		try {
+			setSupervisor((Researcher) user);
+			System.out.println("Supervisor set: " + email);
+		} catch (LowHIndexException e) {
+			System.out.println("Cannot set supervisor: " + e.getMessage());
+		}
+	}
+
+	private void submitDiplomaInput() {
+		if (getSupervisor() == null) {
+			System.out.println("You need a supervisor before submitting a diploma");
+			return;
+		}
+		System.out.print("Enter diploma title: ");
+		String title = input.nextLine().trim();
+		System.out.print("Enter diploma topic: ");
+		String topic = input.nextLine().trim();
+		if (papers.isEmpty()) {
+			System.out.println("You need at least one published paper to submit a diploma");
+			return;
+		}
+		try {
+			DiplomaProject project = new DiplomaProject(
+					title, topic, this, getSupervisor(), new ArrayList<>(papers));
+			submitDiploma(project);
+			System.out.println("Diploma submitted: " + title);
+		} catch (IllegalStateException e) {
+			System.out.println("Cannot submit: " + e.getMessage());
+		}
+	}
+
+
+	private void joinProjectInput() {
+		System.out.print("Enter project title: ");
+		String title = input.nextLine().trim();
+		ResearchProject project = UniversitySystem.getInstance().findProject(title);
+		if (project == null) {
+			System.out.println("Project not found: " + title);
+			return;
+		}
+		try {
+			joinProject(project);
+			System.out.println("Joined project: " + project.getTitle());
+		} catch (NotAResearcherException e) {
+			// не должно случиться, MasterStudent сам Researcher,
+			// но интерфейс заставляет ловить
+			System.out.println("Cannot join: " + e.getMessage());
+		}
+	}
+
+
+
 
 	@Override
 	public void update() {

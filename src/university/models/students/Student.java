@@ -195,6 +195,99 @@ public class Student extends User  {
 	}
 
 
+	public void viewRegisteredCourses() {
+		if (courses.isEmpty()) {
+			System.out.println("No courses registered");
+			return;
+		}
+		System.out.println("--- Registered courses ---");
+		for (Course c : courses) {
+			System.out.println("- " + c.getName() + " (" + c.getCredits() + " credits)");
+		}
+		System.out.println("Total credits: " + credits + "/21");
+	}
+
+	//Menu
+
+
+	@Override
+	public void userMenu() {
+		String menuView= """
+				--Student Panel--
+				register - register for a course
+				marks    - view marks
+				gpa      - view current GPA
+				trans    - view transcript
+				courses  - view registered courses
+				rate     - rate a teacher
+				change   - change password
+				info     - get info about yourself
+				""";
+		System.out.println(menuView);
+
+		String command = input.nextLine().trim().toLowerCase();
+		switch(command){
+			case "register":
+				registerForCourseInput();
+				break;
+			case "marks":
+				viewMarks();
+				break;
+			case "gpa":
+				System.out.println("Current GPA: "+String.format("%.2f",gpa));
+				break;
+			case "trans":
+				System.out.println(getTranscript());
+				break;
+			case "courses":
+				viewRegisteredCourses();
+				break;
+			case "rate":
+				rateTeacherInput();
+				break;
+			case "change":
+				changePasswordInput();
+				break;
+			case "info":
+				System.out.println(this);
+				break;
+			default:
+				System.out.println("Not available function");
+				break;
+		}
+	}
+
+	protected void registerForCourseInput() {
+		System.out.print("Enter course ID: ");
+		String courseId = input.nextLine().trim();
+
+		 Course c = UniversitySystem.getInstance().findCourse(courseId);
+		 if (c == null) {
+		     System.out.println("Course not found: " + courseId);
+		     return;
+		 }
+		 registerForCourse(c);
+		System.out.println("Course lookup not yet implemented (searched: " + courseId + ")");
+	}
+	protected void rateTeacherInput() {
+		System.out.print("Enter teacher email: ");
+		String email = input.nextLine().trim();
+		System.out.print("Enter rating (1-5): ");
+		try {
+			int rating = Integer.parseInt(input.nextLine().trim());
+
+			 Teacher t = UniversitySystem.getInstance().findTeacherByEmail(email);
+			 if (t == null) {
+			     System.out.println("Teacher not found: " + email);
+			     return;
+			 }
+			 rateTeacher(t, rating);
+			System.out.println("Teacher lookup not yet implemented");
+		} catch (NumberFormatException e) {
+			System.out.println("Invalid rating, expected a number");
+		}
+	}
+
 	// Уведомления
 	@Override
 	public void update(String message) {

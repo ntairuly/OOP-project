@@ -16,7 +16,7 @@ public abstract class User implements Notifiable  {
 	private String email;
 	private String password;
 	private List<Journal> SubsсribedJournals;
-	Scanner input = new Scanner(System.in); 
+	protected Scanner input = new Scanner(System.in);
 
 	public User(String email, String password) {
 		this.email = email;
@@ -25,7 +25,7 @@ public abstract class User implements Notifiable  {
 
 	public abstract void userMenu();
 	
-	public abstract void update(String message);
+
 
 
 	//Used for login
@@ -76,6 +76,8 @@ public abstract class User implements Notifiable  {
 
 	// Уведомления
 	public abstract void update(String message);
+
+	public abstract void update();
 
 	//Overrides
 	@Override

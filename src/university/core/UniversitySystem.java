@@ -3,7 +3,12 @@ package university.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import university.models.courses.Course;
+import university.models.employee.Teacher;
 import university.models.other.Language;
+import university.models.research.ResearchProject;
+import university.models.students.Student;
 
 public class UniversitySystem {
     private static UniversitySystem obj;
@@ -11,7 +16,9 @@ public class UniversitySystem {
 
     private boolean isRunning = true;
     private boolean isLoggedIn = false;
-    protected List<User> users = new ArrayList<>();;
+    protected List<User> users = new ArrayList<>();
+    protected List<Course> courses = new ArrayList<>();
+    protected List<ResearchProject> researchProjects =new ArrayList<>();
     private String myEmail;
     private String myPassword;
     private User myUser;
@@ -21,15 +28,93 @@ public class UniversitySystem {
         Admin.createSuperAdmin(this);
     }
 
+
+
+    //getters
     public List<User> getUsers() {
         return users;
     }
+
+    public List<Course> getCourses() { return courses; }
 
     public static synchronized UniversitySystem getInstance(){
         if (obj == null)
             obj = new UniversitySystem();
         return obj;
     }
+
+    public List<ResearchProject> getResearchProjects() {
+        return researchProjects;
+    }
+
+
+    public ResearchProject findProject(String title){
+        if(title == null){
+            return null;
+        }
+        for (ResearchProject p : researchProjects) {
+            if (title.equalsIgnoreCase(p.getTitle())) {
+                return p;
+            }
+        }
+        return null;
+    }
+    public void addResearchProject(ResearchProject project) {
+        if (project != null && !researchProjects.contains(project)) {
+            researchProjects.add(project);
+        }
+    }
+
+    public User findUserByEmail(String email) {
+        if (email == null) return null;
+        if (!email.endsWith("@kbtu.kz")) {
+            email+= "@kbtu.kz";
+        }
+        for (User u :users) {
+            if (u.getEmail().equalsIgnoreCase(email)){
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public Student findStudentById(String studentId){
+        if(studentId == null){
+            return null;
+        }
+        for (User u : users){
+            if (u instanceof Student){
+                Student s = (Student) u;
+                if(studentId.equalsIgnoreCase(s.getStudentId())){
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public Teacher findTeacherByEmail(String email) {
+        User u = findUserByEmail(email);
+        return (u instanceof Teacher) ? (Teacher) u : null;
+    }
+
+    public Course findCourse(String courseId) {
+        if (courseId == null) return null;
+        for (Course c : courses) {
+            if (courseId.equalsIgnoreCase(c.getCourseId())) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void addCourse(Course course) {
+        if (course != null && !courses.contains(course)) {
+            courses.add(course);
+        }
+    }
+
 
     public void start(){
         while(isRunning){
@@ -60,7 +145,7 @@ public class UniversitySystem {
             System.out.println(Language.INSTANCE.get("UniversitySystem.successlog"));
             while (myUser.isFirstLogin) {
                 System.out.println(Language.INSTANCE.get("UniversitySystem.pwChange"));
-                changePasswordInput(myUser);
+                myUser.changePasswordInput();
             }
         } else {
             System.out.println(Language.INSTANCE.get("UniversitySystem.logError"));
@@ -78,7 +163,7 @@ public class UniversitySystem {
         if (option.equals("1")){
             System.out.println(this.myUser);
         } else if (option.equals("2")){
-            changePasswordInput(myUser);
+            myUser.changePasswordInput();
         } else if (option.equals("3")){
             logout();
         } else {
