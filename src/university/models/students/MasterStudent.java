@@ -22,35 +22,44 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 	}
 
 
-	@Override
-	public void printPapers() {
-		// TODO - implement MasterStudent.printPapers
-		throw new UnsupportedOperationException();
-	}
 
-	@Override
-	public int calculateHIndex() {
-		// TODO - implement MasterStudent.calculateHIndex
-		throw new UnsupportedOperationException();
-	}
 
-	@Override
-	public void addPaper(){
-		throw new UnsupportedOperationException();
-	}
+
 
 	@Override
 	public List<ResearchPaper> getPapers(){
-		throw new UnsupportedOperationException();
+		return papers;
 	}
 
 	@Override
-	public void joinProject() {
-		throw new UnsupportedOperationException();
+	public void addPaper(ResearchPaper paper) {
+		if (paper == null){
+			throw new IllegalArgumentException("Paper must not be null");
+		}
+		if(!papers.contains(paper)){
+			papers.add(paper);
+		}
 	}
+
 
 	@Override
 	public List<ResearchProject> getProjects() {
-		throw new UnsupportedOperationException();
+		return projects;
+	}
+
+	@Override
+	public void joinProject(ResearchProject project) throws NotAResearcherException {
+		if(project == null){
+			throw new IllegalArgumentException("Project must not be null");
+		}
+		project.addParticipant(this);
+		if(!projects.contains(project)){
+			projects.add(project);
+		}
+	}
+
+	@Override
+	public void update() {
+		System.out.println("Master Student "+ getStudentId()+" received notification");
 	}
 }

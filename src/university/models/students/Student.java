@@ -30,7 +30,7 @@ public class Student extends User  {
 	protected Student(String email, String password) {  // private!
 		super(email, password);
 		this.courses = new ArrayList<>();
-		this.marks = new HashMap<>()
+		this.marks = new HashMap<>();
 		this.gpa = 0.0;
 		this.credits = 0;
 		this.failCount = 0;
@@ -115,14 +115,14 @@ public class Student extends User  {
 	public Map<Course, Mark> viewMarks() {
 		if(marks.isEmpty()){
 			System.out.println("No marks!");
-			return;
 		}
 
 		System.out.println("--- MARKS ---");
 		for(Map.Entry<Course, Mark> entry : marks.entrySet()){
-			System.out.println(entry.getValue())''
+			System.out.println(entry.getValue());
 		}
-	}
+        return marks;
+    }
 
 	//добавить оценки
 	public void addMark(Course course, Mark mark){
@@ -144,7 +144,7 @@ public class Student extends User  {
 		for(Mark m : marks.values()){
 			total += m.getGpaPoints();
 		}
-		this.gpa = toatl / marks.size();
+		this.gpa = total / marks.size();
 	}
 
 	//транскрипт
@@ -177,7 +177,7 @@ public class Student extends User  {
 
 
 	//оценка преподавателей
-	public void rateTeacher(Tecaher teacher, int rating) {
+	public void rateTeacher(Teacher teacher, int rating) {
 		if(rating < 1 || rating > 5){
 			System.out.println("Rateing must be between 1 and 5!");
 			return;
@@ -197,10 +197,14 @@ public class Student extends User  {
 
 	// Уведомления
 	@Override
-	public void update(string message) {
+	public void update(String message) {
 		System.out.println("Notification for " + studentId + ": " + message);
 	}
 
+	@Override
+	public void update() {
+		System.out.println("No notifications for " + studentId );
+	}
 
 	@Override
 	public String toString() {
@@ -209,4 +213,6 @@ public class Student extends User  {
 				studentId, gpa, year, major
 		);
 	}
+
+
 }
