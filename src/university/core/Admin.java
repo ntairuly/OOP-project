@@ -153,6 +153,7 @@ public class Admin extends User implements Notifiable{
 		remove - remove User
 		update - update User info
 		logs   - view logs
+		-- account -- 
 		change - change password 
 		info   - get info about yourself
 		""";

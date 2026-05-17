@@ -16,7 +16,7 @@ public abstract class User implements Notifiable  {
 	private String email;
 	private String password;
 	private List<Journal> SubsсribedJournals;
-	protected Scanner input = new Scanner(System.in);
+	protected Scanner input = new Scanner(System.in); 
 
 	public User(String email, String password) {
 		this.email = email;
