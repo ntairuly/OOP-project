@@ -3,9 +3,10 @@ package university.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import university.models.courses.Course;
 import university.models.employee.Teacher;
+import university.models.message.Message;
+import university.models.news.NewsList;
 import university.models.other.Language;
 import university.models.research.ResearchProject;
 import university.models.students.Student;
@@ -13,40 +14,43 @@ import university.models.students.Student;
 public class UniversitySystem {
     private static UniversitySystem obj;
 
-
     private boolean isRunning = true;
     private boolean isLoggedIn = false;
     protected List<User> users = new ArrayList<>();
     protected List<Course> courses = new ArrayList<>();
-    protected List<ResearchProject> researchProjects =new ArrayList<>();
+    protected List<ResearchProject> researchProjects = new ArrayList<>();
+    protected List<Message> messages = new ArrayList<>();
+    private final NewsList newsList = new NewsList();
     private String myEmail;
     private String myPassword;
     private User myUser;
-    static Scanner input = new Scanner(System.in); 
-    
+    static Scanner input = new Scanner(System.in);
+
     protected UniversitySystem() {
         Admin.createSuperAdmin(this);
     }
 
-
-
-    //getters
-    public List<User> getUsers() {
-        return users;
+    // Getters
+    public List<User> getUsers() { 
+        return users; 
+    }
+    public List<Course> getCourses() { 
+        return courses; 
+    }
+    public List<ResearchProject> getResearchProjects() { 
+        return researchProjects; 
+    }
+    public List<Message> getMessages() { 
+        return messages; 
+    }
+    public NewsList getNewsList() { 
+        return newsList; 
     }
 
-    public List<Course> getCourses() { return courses; }
-
-    public static synchronized UniversitySystem getInstance(){
-        if (obj == null)
-            obj = new UniversitySystem();
+    public static synchronized UniversitySystem getInstance() {
+        if (obj == null) obj = new UniversitySystem();
         return obj;
     }
-
-    public List<ResearchProject> getResearchProjects() {
-        return researchProjects;
-    }
-
 
     public ResearchProject findProject(String title){
         if(title == null){
@@ -59,6 +63,7 @@ public class UniversitySystem {
         }
         return null;
     }
+
     public void addResearchProject(ResearchProject project) {
         if (project != null && !researchProjects.contains(project)) {
             researchProjects.add(project);
@@ -171,8 +176,7 @@ public class UniversitySystem {
         }
     }
 
-
-    //Login and logout logic
+    // Login and logout logic
     private boolean login(String email, String password) {
         for (User u : users) {
             if (u.getEmail().equals(email) && u.checkPassword(password)) {
