@@ -10,6 +10,10 @@ public class StudentFactory extends UserFactory {
         super(uSystem);
     }
 
+    public static StudentFactory createFactory(UniversitySystem uSystem) {
+        return new StudentFactory(uSystem);
+    }
+
     @Override
     protected User createUser(String email, String password) {
         if (email == null || email.isEmpty()) {
