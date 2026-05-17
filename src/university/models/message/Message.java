@@ -2,18 +2,19 @@ package university.models.message;
 
 import java.time.LocalDateTime;
 import university.core.*;
+import university.models.employee.*;
 
 public class Message {
 
     private Employee sender;
-    private Employee receiver;
+    private User receiver;
     private String content;
     private String subject;
     private UrgencyLevel urgency;
     private LocalDateTime sentDate;
     private boolean isSignedByDean;
 
-    public Message(Employee sender, Employee receiver, String subject,
+    public Message(Employee sender, User receiver, String subject,
                    String content, UrgencyLevel urgency) {
         this.sender = sender;
         this.receiver = receiver;
@@ -29,7 +30,7 @@ public class Message {
     }
 
     public Employee getSender() { return sender; }
-    public Employee getReceiver() { return receiver; }
+    public User getReceiver() { return receiver; }
     public String getContent() { return content; }
     public String getSubject() { return subject; }
     public UrgencyLevel getUrgency() { return urgency; }

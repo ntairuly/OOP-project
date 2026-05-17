@@ -46,11 +46,4 @@ public class Manager extends Employee {
 		// TODO - implement Manager.viewStudentsSortedByGpa
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public void update(){
-		// TODO - implement Admin.update
-		throw new UnsupportedOperationException();
-	}
-
 }
