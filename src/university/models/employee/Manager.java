@@ -1,6 +1,7 @@
 package university.models.employee;
 
 import java.util.List;
+import java.util.ArrayList;
 import university.models.message.*;
 import university.models.students.*;
 
@@ -18,9 +19,17 @@ public class Manager extends Employee {
 	}
 
 	public boolean approveRegistration() {
-		// TODO - implement Manager.approveRegistration
-		throw new UnsupportedOperationException();
-	}
+        if (pendingRequests == null) pendingRequests = new ArrayList<>();
+
+        if (pendingRequests.isEmpty()) {
+            System.out.println("No pending registration requests.");
+            return false;
+        }
+
+        System.out.println("Approved " + pendingRequests.size() + " pending request(s).");
+        pendingRequests.clear();
+        return true;
+    }
 
 	public void assignTeacher() {
 		// TODO - implement Manager.assignTeacher
