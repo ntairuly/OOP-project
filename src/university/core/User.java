@@ -54,6 +54,9 @@ public abstract class User implements Notifiable  {
 	}
 
 
+	// Уведомления
+	public abstract void update(String message);
+
 	//Overrides
 	@Override
 	public String toString() {
