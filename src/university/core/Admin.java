@@ -3,8 +3,9 @@ package university.core;
 import java.util.List;
 import java.util.Scanner;
 import university.core.factory.*;
+import university.models.news.Notifiable;
 
-public class Admin extends User {
+public class Admin extends User implements Notifiable{
 
 	private static List<String> logs;
 	private static String action;
@@ -117,7 +118,6 @@ public class Admin extends User {
 	}
 
 	public void removeUser() {
-		// TODO - implement Admin.removeUser
 		System.out.println("Enter email of user to remove: ");
     	String email = input.nextLine();
     	List<User> users = UniversitySystem.getInstance().getUsers();
@@ -150,10 +150,47 @@ public class Admin extends User {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public void userMenu(){
+		String menuView = """
+		--Admin panel--
+		add    - add new User
+		remove - remove User
+		update - update User info
+		logs   - view logs
+		change - change password 
+		info   - get info about yourself
+		""";
+		String command = input.nextLine().toUpperCase();
+		switch (command) {
+			case "add":
+				addUser();
+				break;
+			case "remove":
+				removeUser();
+				break;
+			case "update":
+				updateUser();
+				break;
+			case "logs":
+				viewLogs();
+				break;
+			case "change":
+				changePasswordInput();
+				break;
+			case "info":
+				System.out.println(toString());
+				break;
+			default:
+				System.out.println("Not available option");
+				break;
+		}
+	}
 
 	@Override
-	public void update(){
+	public void update(String message){
 		// TODO - implement Admin.update
 		throw new UnsupportedOperationException();
 	}
+
 }
