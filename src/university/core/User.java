@@ -25,7 +25,10 @@ public abstract class User implements Notifiable  {
 
 	public abstract void userMenu();
 	
-	public abstract void update(String message);
+	@Override
+	public void update(String message) {
+    	System.out.println("" + getEmail() + " notified about " + message);
+	}
 
 
 	//Used for login
