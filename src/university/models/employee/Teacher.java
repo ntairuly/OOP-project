@@ -15,13 +15,14 @@ public class Teacher extends Employee implements Researcher {
 	private boolean isProfessor;
 	private  List<Integer> ratings = new ArrayList<>();
 
-	public Teacher(String email, String password, TeacherTitle title, List<Course> courses,double rating,boolean isProfessor,List<Integer> ratings){
+	protected Teacher(String email, String password){
 		super(email, password);
-		this.title = title;
-		this.courses =courses;
-		this.rating = rating;
-		this.isProfessor=isProfessor;
+		this.courses = new ArrayList<>();
 		this.ratings = new ArrayList<>();
+	}
+
+	public static Teacher createTeacher(String email, String password){
+		return new Teacher(email, password);
 	}
 
 

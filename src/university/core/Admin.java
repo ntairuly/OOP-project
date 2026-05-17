@@ -16,12 +16,7 @@ public class Admin extends User implements Notifiable{
 	}
 
 	public static Admin createAdmin(String email, String password){
-		if (!(email.endsWith("@kbtu.kz"))) {
-            email += "@kbtu.kz";
-        }
-		
-		Admin newAdmin = new Admin(email, password);
-		return newAdmin;
+		return new Admin(email, password);
 	}
 
 
