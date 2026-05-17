@@ -1,7 +1,10 @@
 package university.models.students;
 
+import java.util.Comparator;
 import java.util.List;
 
+import university.core.UniversitySystem;
+import university.exceptions.LowHIndexException;
 import university.models.courses.Course;
 import university.models.grading.Mark;
 import university.models.research.*;
@@ -41,7 +44,7 @@ public class PhDStudent extends GraduateStudent implements Researcher {
 		this.dissertationTopic=dissertationTopic;
 	}
 
-	public boolean CanTeachBachelor() {
+	public boolean сanTeachBachelor() {
 		return canTeachBachelor;
 	}
 
@@ -115,9 +118,193 @@ public class PhDStudent extends GraduateStudent implements Researcher {
 	}
 
 
+	@Override
+	public void userMenu() {
+		String menuView = """
+                __PhD Student Panel__
+                register - register for a course
+                marks    - view marks
+                gpa      - view current GPA
+                trans    - view transcript
+                courses  - view registered courses
+                rate     - rate a teacher
+                ___research___
+                papers   - view my papers
+                hindex   - view h-index
+                super    - set supervisor
+                join     - join research project
+                publish  - publish a new paper
+                topic    - set dissertation topic
+                defend   - submit dissertation
+                teaching - toggle teaching bachelors
+                ___account___
+                change   - change password
+                info     - get info about yourself
+                """;
+		System.out.println(menuView);
+
+		String command = input.nextLine().trim().toLowerCase();
+		switch (command) {
+			case "register":
+				registerForCourseInput();
+				break;
+			case "marks":
+				viewMarks();
+				break;
+			case "gpa":
+				System.out.println("Current GPA: " + String.format("%.2f", getGpa()));
+				break;
+			case "trans":
+				System.out.println(getTranscript());
+				break;
+			case "courses":
+				viewRegisteredCourses();
+				break;
+			case "rate":
+				rateTeacherInput();
+				break;
+			case "papers":
+				viewPapers();
+				break;
+			case "hindex":
+				System.out.println("Your h-index: " + calculateHIndex());
+				break;
+			case "super":
+				setSupervisorInput();
+				break;
+			case "join":
+				joinProjectInput();
+				break;
+			case "publish":
+				publishPaperInput();
+				break;
+			case "topic":
+				setDissertationTopicInput();
+				break;
+			case "defend":
+				defendDissertation();
+				break;
+			case "teaching":
+				toggleTeaching();
+				break;
+			case "change":
+				changePasswordInput();
+				break;
+			case "info":
+				System.out.println(this);
+				break;
+			default:
+				System.out.println("Not available option");
+				break;
+		}
+	}
+
+	private void viewPapers() {
+		if (papers.isEmpty()) {
+			System.out.println("No papers yet");
+			return;
+		}
+		System.out.println("--- My papers ---");
+		printPapers(Comparator.comparingInt(ResearchPaper::getCitations).reversed());
+	}
+
+
+	private void setSupervisorInput() {
+		System.out.print("Enter supervisor email: ");
+		String email = input.nextLine().trim();
+		var user = UniversitySystem.getInstance().findUserByEmail(email);
+		if (user == null) {
+			System.out.println("User not found: " + email);
+			return;
+		}
+		if (!(user instanceof Researcher)) {
+			System.out.println("This user is not a Researcher and cannot be your supervisor");
+			return;
+		}
+		try {
+			setSupervisor((Researcher) user);
+			System.out.println("Supervisor set: " + email);
+		} catch (LowHIndexException e) {
+			System.out.println("Cannot set supervisor: " + e.getMessage());
+		}
+	}
+
+	private void joinProjectInput() {
+		System.out.print("Enter project title: ");
+		String title = input.nextLine().trim();
+		ResearchProject project = UniversitySystem.getInstance().findProject(title);
+		if (project == null) {
+			System.out.println("Project not found: " + title);
+			return;
+		}
+		try {
+			joinProject(project);
+			System.out.println("Joined project: " + project.getTitle());
+		} catch (NotAResearcherException e) {
+			System.out.println("Cannot join: " + e.getMessage());
+		}
+	}
+
+	private void publishPaperInput() {
+		System.out.print("Enter paper title: ");
+		String title = input.nextLine().trim();
+		System.out.print("Enter journal name: ");
+		String journal = input.nextLine().trim();
+		System.out.print("Enter DOI: ");
+		String doi = input.nextLine().trim();
+		System.out.print("Enter pages: ");
+		int pages;
+		try {
+			pages = Integer.parseInt(input.nextLine().trim());
+		} catch (NumberFormatException e) {
+			System.out.println("Invalid pages, expected a number");
+			return;
+		}
+		List<String> authors = new ArrayList<>();
+		authors.add(getEmail());
+		ResearchPaper paper = new ResearchPaper(
+				title, authors, journal, pages, 0, java.time.LocalDate.now(), doi);
+		publishPaper(paper);
+	}
+
+
+	private void setDissertationTopicInput() {
+		System.out.print("Enter dissertation topic: ");
+		String topic = input.nextLine().trim();
+		if (topic.isBlank()) {
+			System.out.println("Topic cannot be empty");
+			return;
+		}
+		setDissertationTopic(topic);
+		System.out.println("Dissertation topic set: " + topic);
+	}
+
+	private void defendDissertation() {
+		try {
+			submitDissertation();
+		} catch (IllegalStateException e) {
+			System.out.println("Cannot defend: " + e.getMessage());
+		}
+	}
+
+
+	private void toggleTeaching() {
+		canTeachBachelor = !canTeachBachelor;
+		System.out.println("Teaching bachelors: " + (canTeachBachelor ? "enabled" : "disabled"));
+	}
+
+
+
+
 	//Notifiable
 	@Override
 	public void update() {
 		System.out.println("PhD Student " + getStudentId() + " received notification");
 	}
+
+	@Override
+	public void update(String message) {
+		System.out.println("PhD Student " + getStudentId() + " received: " + message);
+	}
+
 }
