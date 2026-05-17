@@ -161,6 +161,7 @@ public class Admin extends User implements Notifiable{
 		change - change password 
 		info   - get info about yourself
 		""";
+		System.out.println(menuView);
 		String command = input.nextLine().toUpperCase();
 		switch (command) {
 			case "add":
