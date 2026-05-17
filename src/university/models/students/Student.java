@@ -147,7 +147,7 @@ public class Student extends User  {
 		this.gpa = toatl / marks.size();
 	}
 
-	\\транскрипт
+	//транскрипт
 	public String getTranscript() {
 		StringBuilder s = new StringBuilder();
 
