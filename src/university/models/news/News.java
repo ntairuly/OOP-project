@@ -55,6 +55,52 @@ public class News {
 		return stringComments;
 	}
 
+	public String getTitle() {
+        return title;
+    }
+	public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+	public void setContent(String content) {
+        this.content = content;
+    }
+    
+	public String getTopic() {
+        return topic;
+    }
+	public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public boolean isPinned() {
+        return isPinned;
+    }
+    public void setPinned(boolean pinned) {
+        isPinned = pinned;
+    }
+    
+	public List<String> getComments() {
+        return comments;
+    }
+
+    public LocalDate getPublishedDate() {
+        return publishedDate;
+    }
+    public void setPublishedDate(LocalDate publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
 	@Override
     public String toString() {
         return "{" + topic + "}\n      " + title + " (" + publishedDate + ")\n" + content + commentsToString();
