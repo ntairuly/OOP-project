@@ -5,104 +5,55 @@ import java.util.ArrayList;
 import java.util.List;
 import university.core.*;
 
-public class News {
+public class News implements Comparable<News> {
 
-	private String title;
-	private String content;
-	private String topic;
-	private boolean isPinned;
-	private List<String> comments;
-	private LocalDate publishedDate;
-	private User author;
+    private String title;
+    private String content;
+    private String topic;
+    private boolean isPinned;
+    private List<String> comments;
+    private LocalDate publishedDate;
+    private User author;
 
-	public News() {
-        this.comments = new ArrayList<>();
-    }
-
-	public void addComment(String comment) {
-		comments.add(comment);
-		throw new UnsupportedOperationException();
-	}
-
-	public int compareTo(News other) {
-		if (this.isPinned && !other.isPinned) {
-			return -1;
-		}
-		else if (!this.isPinned && other.isPinned) {
-			return 1;
-		}
-		else{
-			return other.publishedDate.compareTo(this.publishedDate);//Built in LocalDate comparing
-		}
-	}
-
-	public News createResearchNews(String title, String content, String topic, User author) {
-		News news = new News();
-        news.title = title;
-        news.content = content;
-        news.topic = topic;
-        news.isPinned = false;
-        news.publishedDate = LocalDate.now();
-        news.author = author;
-        return news;
-	}
-
-	public String commentsToString(){
-		String stringComments = "";
-		for (String comment : comments) {
-			stringComments += " -- " + comment;
-		}
-		return stringComments;
-	}
-
-	public String getTitle() {
-        return title;
-    }
-	public void setTitle(String title) {
+    public News(String title, String content, String topic, User author) {
         this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-	public void setContent(String content) {
         this.content = content;
-    }
-    
-	public String getTopic() {
-        return topic;
-    }
-	public void setTopic(String topic) {
         this.topic = topic;
-    }
-
-    public boolean isPinned() {
-        return isPinned;
-    }
-    public void setPinned(boolean pinned) {
-        isPinned = pinned;
-    }
-    
-	public List<String> getComments() {
-        return comments;
-    }
-
-    public LocalDate getPublishedDate() {
-        return publishedDate;
-    }
-    public void setPublishedDate(LocalDate publishedDate) {
-        this.publishedDate = publishedDate;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-    public void setAuthor(User author) {
         this.author = author;
+        this.publishedDate = LocalDate.now();
+        this.comments = new ArrayList<>();
+        this.isPinned = topic.equalsIgnoreCase("Research");
     }
 
-	@Override
+    public void addComment(String comment) {
+        comments.add(comment);
+    }
+
+    @Override
+    public int compareTo(News other) {
+        if (this.isPinned && !other.isPinned) return -1;
+        if (!this.isPinned && other.isPinned) return 1;
+        return other.publishedDate.compareTo(this.publishedDate);
+    }
+
+    public static News createResearchNews(String researcherName, String paperTitle) {
+        return new News(
+            "New paper published!",
+            researcherName + " published: " + paperTitle,
+            "Research",
+            null
+        );
+    }
+
+    public String getTitle() { return title; }
+    public String getTopic() { return topic; }
+    public boolean isPinned() { return isPinned; }
+    public List<String> getComments() { return comments; }
+
+    @Override
     public String toString() {
-        return "{" + topic + "}\n      " + title + " (" + publishedDate + ")\n" + content + commentsToString();
+        return "News{title='" + title + "', topic='" + topic
+                + "', pinned=" + isPinned
+                + ", date=" + publishedDate + "}";
     }
 }
