@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import university.core.factory.*;
 import university.models.news.Notifiable;
+import university.models.other.*;
 
 
 public class Admin extends User implements Notifiable {
@@ -30,10 +31,10 @@ public class Admin extends User implements Notifiable {
 
 	// Admin: add new user
 	public void addUser() {
-		System.out.println("Select user email: ");
+		System.out.println(Language.INSTANCE.get("Admin.selectEmail"));
 		String email = input.nextLine();
 
-		System.out.println("Select user password: ");
+		System.out.println(Language.INSTANCE.get("Admin.selectPassword"));
 		String password = input.nextLine();
 
 		UniversitySystem uSystem = UniversitySystem.getInstance();
@@ -44,13 +45,13 @@ public class Admin extends User implements Notifiable {
 
 		while (factory == null) {
 			getOccupations();
-			System.out.println("Select user occupation(eng): ");
+			System.out.println(Language.INSTANCE.get("Admin.selectOccupation"));
 			occupationS = (input.nextLine()).toUpperCase().replace(" ", "");
 
 			try {
 				occupation = OccupationType.valueOf(occupationS);
 			} catch (IllegalArgumentException e) {
-				System.out.println("Such occupation doesn't exist or grammatical error in input\n");
+				System.out.println(Language.INSTANCE.get("Admin.occupationError"));
 				continue;
 			}
 
@@ -58,8 +59,8 @@ public class Admin extends User implements Notifiable {
 				case USER:
 				case EMPLOYEE:
 				case GRADUATESTUDENT:
-					System.out.println("This occupation cant be selected");
-					System.out.println("Because it is abstract");
+					System.out.println(Language.INSTANCE.get("Admin.occupationCannotSelect"));
+					System.out.println(Language.INSTANCE.get("Admin.occupationAbstract"));
 					break;
 				case ADMIN:
 					factory = AdminFactory.createFactory(uSystem);
@@ -83,12 +84,12 @@ public class Admin extends User implements Notifiable {
 		}
 
 		factory.addUser(email, password);
-		logAction("Added user: " + email);
-		System.out.println("User added succesfully");
+		logAction(Language.INSTANCE.get("Admin.logAddUser") + email);
+		System.out.println(Language.INSTANCE.get("Admin.userAddedSuccessfully"));
 	}
 
 	public void getOccupations() {
-		System.out.println("Available occupations:");
+		System.out.println(Language.INSTANCE.get("Admin.availableOccupations"));
 		String availableOccup = """
 		USER(%1$s)
 		|
@@ -109,11 +110,11 @@ public class Admin extends User implements Notifiable {
 					  |----> PHDSTUDENT
 		""";
 
-		System.out.print(String.format(availableOccup, "cant be selected"));
+		System.out.print(String.format(availableOccup, Language.INSTANCE.get("Admin.cannotBeSelected")));
 	}
 
 	public void removeUser() {
-		System.out.println("Enter email of user to remove: ");
+		System.out.println(Language.INSTANCE.get("Admin.enterEmailRemove"));
 		String email = input.nextLine();
 		List<User> users = UniversitySystem.getInstance().getUsers();
 		int prevSize = users.size();
@@ -127,55 +128,55 @@ public class Admin extends User implements Notifiable {
 
 		int curSize = users.size();
 		if (curSize != prevSize) {
-			logAction("Removed user: " + email);
-			System.out.println("User removed succesfully");
+			logAction(Language.INSTANCE.get("Admin.logRemoveUser") + email);
+			System.out.println(Language.INSTANCE.get("Admin.userRemovedSuccessfully"));
 		} else {
-			System.out.println("User wasn't removed");
-			System.out.println("because it doesnt exist");
+			System.out.println(Language.INSTANCE.get("Admin.userNotRemoved"));
+			System.out.println(Language.INSTANCE.get("Admin.userDoesNotExist"));
 		}
 	}
 
 	public void updateUser() {
-		System.out.print("Enter email of user to update: ");
+		System.out.print(Language.INSTANCE.get("Admin.enterEmailUpdate"));
 		String email = input.nextLine().trim();
 		User u = UniversitySystem.getInstance().findUserByEmail(email);
 
 		if (u == null) {
-			System.out.println("User not found: " + email);
+			System.out.println(Language.INSTANCE.get("Admin.userNotFound") + email);
 			return;
 		}
 
-		System.out.println("What to update? (id / firstname / lastname / email)");
+		System.out.println(Language.INSTANCE.get("Admin.whatToUpdate"));
 		String field = input.nextLine().trim().toUpperCase();
 
 		switch (field) {
 			case "ID":
-				System.out.print("New id: ");
+				System.out.print(Language.INSTANCE.get("Admin.newId"));
 				u.setId(input.nextLine().trim());
 				break;
 			case "FIRSTNAME":
-				System.out.print("New first name: ");
+				System.out.print(Language.INSTANCE.get("Admin.newFirstName"));
 				u.setFirstName(input.nextLine().trim());
 				break;
 			case "LASTNAME":
-				System.out.print("New last name: ");
+				System.out.print(Language.INSTANCE.get("Admin.newLastName"));
 				u.setLastName(input.nextLine().trim());
 				break;
 			case "EMAIL":
-				System.out.print("New email: ");
+				System.out.print(Language.INSTANCE.get("Admin.newEmail"));
 				u.setEmail(input.nextLine().trim());
 				break;
 			default:
-				System.out.println("Unknown field");
+				System.out.println(Language.INSTANCE.get("Admin.unknownField"));
 				return;
 		}
 
-		logAction("Updated user: " + email + " field=" + field);
-		System.out.println("User updated successfully");
+		logAction(Language.INSTANCE.get("Admin.logUpdateUser") + email + Language.INSTANCE.get("Admin.logField") + field);
+		System.out.println(Language.INSTANCE.get("Admin.userUpdatedSuccessfully"));
 	}
 
 	public List<String> viewLogs() {
-		System.out.println("--Admin logs--");
+		System.out.println(Language.INSTANCE.get("Admin.adminLogs"));
 		for (String l : logs) {
 			System.out.println(l);
 		}
@@ -188,16 +189,7 @@ public class Admin extends User implements Notifiable {
 
 	@Override
 	public void userMenu(){
-		String menuView = """
-		--Admin panel--
-		add    - add new User
-		remove - remove User
-		update - update User info
-		logs   - view logs
-		-- account -- 
-		change - change password 
-		info   - get info about yourself
-		""";
+		String menuView = Language.INSTANCE.get("Admin.menu");
 		System.out.println(menuView);
 		String command = input.nextLine().toUpperCase();
 		switch (command) {
@@ -220,13 +212,13 @@ public class Admin extends User implements Notifiable {
 				System.out.println(toString());
 				break;
 			default:
-				System.out.println("Not available option");
+				System.out.println(Language.INSTANCE.get("UniversitySystem.invalidOption"));
 				break;
 		}
 	}
 
 	@Override
 	public void update(String message) {
-		System.out.println("Admin notification: " + message);
+		System.out.println(Language.INSTANCE.get("Admin.notification") + message);
 	}
 }
