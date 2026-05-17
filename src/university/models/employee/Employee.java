@@ -15,7 +15,7 @@ public abstract class Employee extends User {
 	}
 
 	public void sendMessage() {
-		// TODO - implement Employee.sendMessage
+		//Not done because Notifications are not complete
 		throw new UnsupportedOperationException();
 	}
 

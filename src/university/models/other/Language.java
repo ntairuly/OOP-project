@@ -112,8 +112,8 @@ public enum Language {
 		"Студент[id=%s, СРБ=%.2f, курс=%d, специальность=%s]",
 		"Студент[id=%s, СРБ=%.2f, курс=%d, мамандық=%s]");
 
-		add("GraduateStudent.toString", "GraduateStudent[id=%s, gpa=%.2f, supervisor=%s]",
-			"GraduateStudent[id=%s, СРБ=%.2f, научный руководитель=%s]",
+	add("GraduateStudent.toString", "GraduateStudent[id=%s, gpa=%.2f, supervisor=%s]",
+		"GraduateStudent[id=%s, СРБ=%.2f, научный руководитель=%s]",
 			"GraduateStudent[id=%s, СРБ=%.2f, жетекші=%s]");
 }
 	

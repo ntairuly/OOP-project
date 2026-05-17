@@ -2,8 +2,11 @@ package university.core;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 import university.models.news.*;
 import university.models.other.*;
+
+
 public abstract class User implements Notifiable  {
 
 	protected boolean isFirstLogin = true; 
@@ -13,14 +16,21 @@ public abstract class User implements Notifiable  {
 	private String email;
 	private String password;
 	private List<Journal> SubsсribedJournals;
+	Scanner input = new Scanner(System.in); 
 
 	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
 
-
+	public abstract void userMenu();
 	
+	@Override
+	public void update(String message) {
+    	System.out.println("" + getEmail() + " notified about " + message);
+	}
+
+
 	//Used for login
 	public boolean checkPassword(String password){
 		return this.password.equals(password);
@@ -30,6 +40,19 @@ public abstract class User implements Notifiable  {
 		return this.email;
 	}
 
+	//Change passwrod logic
+    public void changePasswordInput() {
+        String curPassword = "";
+        if (!this.isFirstLogin) {
+            System.out.print(Language.INSTANCE.get("UniversitySystem.pwCur"));
+            curPassword = input.nextLine();
+        }
+        System.out.print(Language.INSTANCE.get("UniversitySystem.pwNew"));
+        String newPassword = input.nextLine();
+        System.out.print(Language.INSTANCE.get("UniversitySystem.pwConfirm"));
+        String repeatedPassword = input.nextLine();
+        this.changePassword(curPassword, newPassword, repeatedPassword);
+    }
 
 	//Used to change password
 	public void changePassword(String curPassword, String newPassword, String repeatedPassword){
@@ -53,6 +76,9 @@ public abstract class User implements Notifiable  {
 		}
 	}
 
+
+	// Уведомления
+	public abstract void update(String message);
 
 	//Overrides
 	@Override

@@ -60,7 +60,7 @@ public class UniversitySystem {
             System.out.println(Language.INSTANCE.get("UniversitySystem.successlog"));
             while (myUser.isFirstLogin) {
                 System.out.println(Language.INSTANCE.get("UniversitySystem.pwChange"));
-                changePasswordInput();
+                changePasswordInput(myUser);
             }
         } else {
             System.out.println(Language.INSTANCE.get("UniversitySystem.logError"));
@@ -78,7 +78,7 @@ public class UniversitySystem {
         if (option.equals("1")){
             System.out.println(this.myUser);
         } else if (option.equals("2")){
-            changePasswordInput();
+            changePasswordInput(myUser);
         } else if (option.equals("3")){
             logout();
         } else {
@@ -105,22 +105,4 @@ public class UniversitySystem {
         myPassword = "";
         myUser = null;
     }
-
-
-    //Change passwrod logic
-    private void changePasswordInput() {
-        String curPassword = "";
-        if (!myUser.isFirstLogin) {
-            System.out.print(Language.INSTANCE.get("UniversitySystem.pwCur"));
-            curPassword = input.nextLine();
-        }
-        System.out.print(Language.INSTANCE.get("UniversitySystem.pwNew"));
-        String newPassword = input.nextLine();
-        System.out.print(Language.INSTANCE.get("UniversitySystem.pwConfirm"));
-        String repeatedPassword = input.nextLine();
-        myUser.changePassword(curPassword, newPassword, repeatedPassword);
-    }
-
-
-
 }
