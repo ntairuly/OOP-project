@@ -2,13 +2,15 @@ package university.models.courses;
 
 // Core Classes
 
+import java.util.ArrayList;
 import java.util.List;
-import university.core.*;
+import java.util.Objects;
 import university.models.employee.*;
 import university.models.grading.*;
 import university.models.students.Student;
 
-public class Course {
+
+public class Course implements Comparable<Course> {
 
 	private String courseId;
 	private String name;
@@ -20,44 +22,140 @@ public class Course {
 	private String school;
 	private int targetYear;
 
-	public Course(String courseId,String name, int credits, CourseType courseType,List<Teacher> instructors,List<Lesson>lessons,String school,int targetYear,List<Student> enrolledStudents){
+	public Course(String courseId, String name, int credits, CourseType courseType,
+				  List<Teacher> instructors, List<Lesson> lessons,
+				  String school, int targetYear, List<Student> enrolledStudents) {
+		
 		this.courseId = courseId;
 		this.name = name;
 		this.credits = credits;
 		this.courseType = courseType;
-		this.instructors = instructors;
-		this.lessons=lessons;
-		this.school=school;
-		this.enrolledStudents = enrolledStudents;
+		this.school = school;
 		this.targetYear = targetYear;
+
+		if (instructors == null){
+			this.instructors = new ArrayList<>();
+		} else {
+			this.instructors = instructors;
+		}
+		if (lessons == null){
+			this.lessons = new ArrayList<>();
+		} else {
+			this.lessons = lessons;
+		}
+		if (enrolledStudents == null){
+			this.enrolledStudents = new ArrayList<>();
+		} else {
+			this.enrolledStudents = enrolledStudents;
+		}
+	}
+
+	// Getters/setters
+	public int getCredits(){ 
+		return credits; 
+	}
+	public void setCredits(int credits) { 
+		this.credits = credits;  
+	}
+
+	public String getName(){ 
+		return name;  
+	}
+	public void setName(String name) { 
+		this.name = name; 
+	}
+	
+	public String getCourseId(){ 
+		return courseId; 
+	}
+	public void setCourseId(String courseId) { 
+		this.courseId = courseId; 
+	}
+
+	public CourseType getCourseType() { 
+		return courseType; 
+	}
+	public void setCourseType(CourseType courseType) { 
+		this.courseType = courseType; 
+	}
+
+	public String getSchool() { 
+		return school; 
+	}
+	public void setSchool(String school) { 
+		this.school = school; 
+	}
+
+	public int getTargetYear(){ 
+		return targetYear; 
+	}
+	public void setTargetYear(int targetYear) { 
+		this.targetYear = targetYear; 
+	}
+
+	public List<Teacher> getInstructors() { 
+		return instructors; 
+	}
+	public List<Lesson> getLessons() { 
+		return lessons; 
+	}
+	public List<Student> getEnrolledStudents() { 
+		return enrolledStudents; 
 	}
 
 
-	public int getCredits() {
-		return credits;
+	public void addInstructor(Teacher teacher) {
+		if (!instructors.contains(teacher)) {
+			instructors.add(teacher);
+			System.out.println("Teacher added sucessfuly");
+		}
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public String getCourseId() {
-		return courseId;
-	}
-
-	public void addInstructor() {
-		// TODO - implement Course.addInstructor
-		throw new UnsupportedOperationException();
+	public void addStudent(Student s) {
+		if (!enrolledStudents.contains(s)) {
+			enrolledStudents.add(s);
+			System.out.println("Student added sucessfuly");
+		}
 	}
 
 	public Mark getStudentMark() {
-		// TODO - implement Course.getStudentMark
-		throw new UnsupportedOperationException();
+		for (Student s : enrolledStudents) {
+			Mark m = s.getMarks().get(this);
+			if (m != null) { 
+				return m;
+			}
+		}
+		return null;
 	}
 
-	public int compareTo() {
-		// TODO - implement Course.compareTo
-		throw new UnsupportedOperationException();
+	@Override
+	public int compareTo(Course other) {
+		if (other == null) return 1;
+		return this.courseId.compareToIgnoreCase(other.courseId);
 	}
 
+	@Override
+	public String toString() {
+		return "Course[" +
+				"id='" + courseId + '\'' +
+				", name='" + name + '\'' +
+				", credits=" + credits +
+				", type=" + courseType +
+				", school='" + school + '\'' +
+				", year=" + targetYear +
+				"]";
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Course)) return false;
+		Course course = (Course) o;
+		return Objects.equals(courseId, course.courseId);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(courseId);
+	}
 }
