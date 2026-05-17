@@ -1,36 +1,47 @@
 package university.models.other;
 
+import java.util.ArrayList;
 import java.util.List;
 import university.models.news.*;
 import university.models.research.*;
 
 public class Journal {
 
-	private String name;
-	private List<ResearchPaper> papers;
-	private List<Notifiable> subscribers;
+    private String name;
+    private List<ResearchPaper> papers;
+    private List<Notifiable> subscribers;
 
-	public void subscribe() {
-		// TODO - implement Journal.subscribe
-		throw new UnsupportedOperationException();
-	}
+    public Journal(String name) {
+        this.name = name;
+        this.papers = new ArrayList<>();
+        this.subscribers = new ArrayList<>();
+    }
 
-	public void unsubscribe() {
-		// TODO - implement Journal.unsubscribe
-		throw new UnsupportedOperationException();
-	}
+    public void subscribe(Notifiable subscriber) {
+        subscribers.add(subscriber);
+    }
 
-	public void publishPaper() {
-		// TODO - implement Journal.publishPaper
-		throw new UnsupportedOperationException();
-	}
+    public void unsubscribe(Notifiable subscriber) {
+        subscribers.remove(subscriber);
+    }
 
-	//notifyAll cant be name for method
-	//because it is special built-in method
-	//so i renamed it
-	public void sendNotifications() {
-		// TODO - implement Journal.notifyAll
-		throw new UnsupportedOperationException();
-	}
+    public void publishPaper(ResearchPaper paper) {
+        papers.add(paper);
+        sendNotifications();
+    }
 
+    public void sendNotifications() {
+        for (Notifiable subscriber : subscribers) {
+            subscriber.update();
+        }
+    }
+
+    public String getName() { return name; }
+    public List<ResearchPaper> getPapers() { return papers; }
+
+    @Override
+    public String toString() {
+        return "Journal{name='" + name + "', papers=" + papers.size()
+                + ", subscribers=" + subscribers.size() + "}";
+    }
 }
