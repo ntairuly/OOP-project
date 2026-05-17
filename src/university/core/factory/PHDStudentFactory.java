@@ -13,6 +13,10 @@ public class PHDStudentFactory extends UserFactory {
         super(uSystem);
     }
 
+    public static PHDStudentFactory createFactory(UniversitySystem uSystem) {
+        return new PHDStudentFactory(uSystem);
+    }
+
     @Override
     protected User createUser(String email, String password) {
         if (email == null || email.isEmpty()) {
