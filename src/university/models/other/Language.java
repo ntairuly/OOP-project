@@ -237,6 +237,7 @@ public enum Language {
 		-- account -- \n
 		change - change password \n
 		info   - get info about yourself\n
+		
 		""",
 		"""
 		--Панель администратора--\n
