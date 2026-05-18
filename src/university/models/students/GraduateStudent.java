@@ -34,7 +34,7 @@ public abstract class GraduateStudent extends Student {
 	public String toString() {
 		return String.format(
 				Language.INSTANCE.get("GraduateStudent.toString"),
-				getStudentId(), getGpa(), supervisor
+				getStudentId(), getFullName(), getGpa(), supervisor
 		);
 	}
 }

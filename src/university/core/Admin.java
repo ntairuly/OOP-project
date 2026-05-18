@@ -77,7 +77,7 @@ public class Admin extends User implements Notifiable {
 					factory = MasterStudentFactory.createFactory(uSystem);
 					break;
 				case PHDSTUDENT:
-					factory = StudentFactory.createFactory(uSystem);
+					factory = PHDStudentFactory.createFactory(uSystem);
 					break;
 			}
 		}

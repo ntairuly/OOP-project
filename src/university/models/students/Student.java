@@ -27,7 +27,7 @@ public class Student extends User  {
 
 
 
-	protected Student(String email, String password) {  // private!
+	protected Student(String email, String password) {
 		super(email, password);
 		this.courses = new ArrayList<>();
 		this.marks = new HashMap<>();
@@ -64,7 +64,7 @@ public class Student extends User  {
 	}
 
 
-    //сеттеры
+	//сеттеры
 	public void setStudentId(String studentId) {
 		this.studentId = studentId;
 	}
@@ -112,17 +112,16 @@ public class Student extends User  {
 
 
 	//смотреть оценки
-	public Map<Course, Mark> viewMarks() {
+	public void viewMarks() {
 		if(marks.isEmpty()){
-			System.out.println("No marks!");
+			System.out.println("No marks yet");
+			return;
 		}
-
 		System.out.println("--- MARKS ---");
 		for(Map.Entry<Course, Mark> entry : marks.entrySet()){
 			System.out.println(entry.getValue());
 		}
-        return marks;
-    }
+	}
 
 	//добавить оценки
 	public void addMark(Course course, Mark mark){
@@ -152,22 +151,22 @@ public class Student extends User  {
 		StringBuilder s = new StringBuilder();
 
 		s.append("------ TRANSCRIPT -------\n");
-		s.append("ID       :").append(studentId).append("\n");
-		s.append("Major    :").append(major).append("\n");
-		s.append("Year     :").append(year).append("\n");
-		s.append("Credits  :").append(credits).append("\n");
-		s.append("GPA      :").append(
-			String.format("%.2f", gpa)).append("\n");
+		s.append("ID       : ").append(studentId).append("\n");
+		s.append("Name     : ").append(getFullName()).append("\n");
+		s.append("Major    : ").append(major).append("\n");
+		s.append("Year     : ").append(year).append("\n");
+		s.append("Credits  : ").append(credits).append("\n");
+		s.append("GPA      : ").append(String.format("%.2f", gpa)).append("\n");
 		s.append("-------------------------\n");
-		
+
 
 		if (marks.isEmpty()){
 			s.append("No courses completed. \n");
 		}else{
 			for(Map.Entry<Course, Mark> entry: marks.entrySet()){
 				Mark m = entry.getValue();
-				s.append(String.format("%-30s %s (%.1f)\n", entry.getKey().getName(), 
-				m.getLetterGrade(), m.getTotal()));
+				s.append(String.format("%-30s %s (%.1f)\n", entry.getKey().getName(),
+						m.getLetterGrade(), m.getTotal()));
 			}
 		}
 
@@ -179,7 +178,7 @@ public class Student extends User  {
 	//оценка преподавателей
 	public void rateTeacher(Teacher teacher, int rating) {
 		if(rating < 1 || rating > 5){
-			System.out.println("Rateing must be between 1 and 5!");
+			System.out.println("Rating must be between 1 and 5!");
 			return;
 		}
 
@@ -220,6 +219,7 @@ public class Student extends User  {
 				trans    - view transcript
 				courses  - view registered courses
 				rate     - rate a teacher
+				edit     - edit my profile (name / id)
 				change   - change password
 				info     - get info about yourself
 				""";
@@ -245,6 +245,9 @@ public class Student extends User  {
 			case "rate":
 				rateTeacherInput();
 				break;
+			case "edit":
+				editProfileInput();
+				break;
 			case "change":
 				changePasswordInput();
 				break;
@@ -261,14 +264,14 @@ public class Student extends User  {
 		System.out.print("Enter course ID: ");
 		String courseId = input.nextLine().trim();
 
-		 Course c = UniversitySystem.getInstance().findCourse(courseId);
-		 if (c == null) {
-		     System.out.println("Course not found: " + courseId);
-		     return;
-		 }
-		 registerForCourse(c);
-		System.out.println("Course lookup not yet implemented (searched: " + courseId + ")");
+		Course c = UniversitySystem.getInstance().findCourse(courseId);
+		if (c == null) {
+			System.out.println("Course not found: " + courseId);
+			return;
+		}
+		registerForCourse(c);
 	}
+
 	protected void rateTeacherInput() {
 		System.out.print("Enter teacher email: ");
 		String email = input.nextLine().trim();
@@ -276,16 +279,42 @@ public class Student extends User  {
 		try {
 			int rating = Integer.parseInt(input.nextLine().trim());
 
-			 Teacher t = UniversitySystem.getInstance().findTeacherByEmail(email);
-			 if (t == null) {
-			     System.out.println("Teacher not found: " + email);
-			     return;
-			 }
-			 rateTeacher(t, rating);
-			System.out.println("Teacher lookup not yet implemented");
+			Teacher t = UniversitySystem.getInstance().findTeacherByEmail(email);
+			if (t == null) {
+				System.out.println("Teacher not found: " + email);
+				return;
+			}
+			rateTeacher(t, rating);
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid rating, expected a number");
 		}
+	}
+
+	// Редактирование собственного профиля
+	protected void editProfileInput() {
+		System.out.println(Language.INSTANCE.get("Student.editPrompt"));
+		String field = input.nextLine().trim().toLowerCase();
+
+		switch (field) {
+			case "firstname":
+				System.out.print(Language.INSTANCE.get("Student.newFirstName"));
+				setFirstName(input.nextLine().trim());
+				break;
+			case "lastname":
+				System.out.print(Language.INSTANCE.get("Student.newLastName"));
+				setLastName(input.nextLine().trim());
+				break;
+			case "id":
+				System.out.print(Language.INSTANCE.get("Student.newId"));
+				String newId = input.nextLine().trim();
+				setId(newId);
+				setStudentId(newId);   // синхронизируем studentId с общим id
+				break;
+			default:
+				System.out.println(Language.INSTANCE.get("Student.unknownField"));
+				return;
+		}
+		System.out.println(Language.INSTANCE.get("Student.profileUpdated"));
 	}
 
 	// Уведомления
@@ -303,7 +332,7 @@ public class Student extends User  {
 	public String toString() {
 		return String.format(
 				Language.INSTANCE.get("Student.toString"),
-				studentId, gpa, year, major
+				studentId, getFullName(), gpa, year, major
 		);
 	}
 

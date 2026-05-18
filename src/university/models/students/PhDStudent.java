@@ -41,7 +41,7 @@ public class PhDStudent extends GraduateStudent implements Researcher {
 		this.dissertationTopic=dissertationTopic;
 	}
 
-	public boolean сanTeachBachelor() {
+	public boolean canTeachBachelor() {
 		return canTeachBachelor;
 	}
 
@@ -135,6 +135,7 @@ public class PhDStudent extends GraduateStudent implements Researcher {
                 defend   - submit dissertation
                 teaching - toggle teaching bachelors
                 ___account___
+                edit     - edit my profile (name / id)
                 change   - change password
                 info     - get info about yourself
                 """;
@@ -183,6 +184,9 @@ public class PhDStudent extends GraduateStudent implements Researcher {
 				break;
 			case "teaching":
 				toggleTeaching();
+				break;
+			case "edit":
+				editProfileInput();
 				break;
 			case "change":
 				changePasswordInput();

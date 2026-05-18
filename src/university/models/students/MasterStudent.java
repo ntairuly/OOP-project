@@ -27,8 +27,6 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 
 
 
-
-
 	@Override
 	public List<ResearchPaper> getPapers(){
 		return papers;
@@ -79,6 +77,7 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 				diploma  - submit diploma
 				join     - join research project
 				-- account --
+				edit     - edit my profile (name / id)
 				change   - change password
 				info     - get info about yourself
 				""";
@@ -121,6 +120,9 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 			case "join":
 				joinProjectInput();
 				break;
+			case "edit":
+				editProfileInput();
+				break;
 			case "change":
 				changePasswordInput();
 				break;
@@ -133,9 +135,6 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 		}
 
 	}
-
-
-
 
 
 	private void viewPapers(){
@@ -207,17 +206,20 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 			joinProject(project);
 			System.out.println("Joined project: " + project.getTitle());
 		} catch (NotAResearcherException e) {
-			// не должно случиться, MasterStudent сам Researcher,
-			// но интерфейс заставляет ловить
 			System.out.println("Cannot join: " + e.getMessage());
 		}
 	}
 
 
+	// Уведомления
 
+	@Override
+	public void update() {
+		System.out.println("Master Student " + getStudentId() + " received notification");
+	}
 
 	@Override
 	public void update(String message) {
-		System.out.println("Master Student "+ getStudentId()+" received notification");
+		System.out.println("Master Student " + getStudentId() + " received: " + message);
 	}
 }
