@@ -21,11 +21,11 @@ public class Admin extends User implements Notifiable {
 		return new Admin(email, password);
 	}
 
-	protected static void createSuperAdmin(UniversitySystem uSystem) {
-		if (uSystem != null) {
-			Admin superAdmin = new Admin("superAdmin@kbtu.kz", "SuperAdmin12345678");
-			uSystem.getUsers().add(superAdmin);
-		}
+	protected static void createSuperAdmin(UniversitySystem uSystem){
+    	if (uSystem != null) {
+        	Admin superAdmin = new Admin("superAdmin@kbtu.kz", "SuperAdmin12345678");
+        	uSystem.getUsers().add(superAdmin);
+    	}
 	}
 
 	// Admin: add new user
@@ -220,7 +220,7 @@ public class Admin extends User implements Notifiable {
 	public void update() {
 		System.out.println("Notification!");
 	}
-	
+
 	@Override
 	public void update(String message) {
 		System.out.println(Language.INSTANCE.get("Admin.notification") + message);

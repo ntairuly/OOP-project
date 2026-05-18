@@ -29,23 +29,32 @@ public class UniversitySystem {
     static Scanner input = new Scanner(System.in);
 
     protected UniversitySystem() {
-        Admin.createSuperAdmin(obj);
+        obj = this;
+        Admin.createSuperAdmin(this);
 
-        AdminFactory adminFactory = AdminFactory.createFactory(obj);
+        AdminFactory adminFactory = AdminFactory.createFactory(this);
         adminFactory.addUser("admin1@kbtu.kz", "AdminPass123");
         adminFactory.addUser("admin2@kbtu.kz", "AdminPass456");
 
-        ManagerFactory managerFactory = ManagerFactory.createFactory(obj);
+        ManagerFactory managerFactory = ManagerFactory.createFactory(this);
         managerFactory.addUser("manager1@kbtu.kz", "ManagerPass123");
         managerFactory.addUser("manager2@kbtu.kz", "ManagerPass456");
 
-        TeacherFactory teacherFactory = TeacherFactory.createFactory(obj);
+        TeacherFactory teacherFactory = TeacherFactory.createFactory(this);
         teacherFactory.addUser("teacher1@kbtu.kz", "TeacherPass123");
         teacherFactory.addUser("teacher2@kbtu.kz", "TeacherPass456");
 
-        StudentFactory studentFactory = StudentFactory.createFactory(obj);
+        StudentFactory studentFactory = StudentFactory.createFactory(this);
         studentFactory.addUser("student1@kbtu.kz", "StudentPass123");
         studentFactory.addUser("student2@kbtu.kz", "StudentPass456");
+
+        MasterStudentFactory masterStudentFactory = MasterStudentFactory.createFactory(this);
+        masterStudentFactory.addUser("mStudent1@kbtu.kz", "StudentPass123");
+        masterStudentFactory.addUser("mStudent2@kbtu.kz", "StudentPass456");
+
+        PHDStudentFactory phdStudentFactory = PHDStudentFactory.createFactory(this);
+        phdStudentFactory.addUser("phdStudent1@kbtu.kz", "StudentPass123");
+        phdStudentFactory.addUser("phdStudent2@kbtu.kz", "StudentPass456");
     }
 
     // Getters

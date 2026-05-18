@@ -155,7 +155,7 @@ public class Manager extends Employee {
 		msg      - send message
 		change   - change password
 		info     - get info about yourself
-		back     - exit panel
+		exit     - exit panel
 		""";
 
 		System.out.println(menuView);
@@ -189,7 +189,7 @@ public class Manager extends Employee {
 			case "INFO":
 				System.out.println(this);
 				break;
-			case "back":
+			case "EXIT":
 				return;
 			default:
 				System.out.println("Not available option");
@@ -206,7 +206,7 @@ public class Manager extends Employee {
 	public void update() {
 		System.out.println("Notification!");
 	}
-	
+
 	@Override
 	public String toString() {
     	return String.format("Manager[email=%s, type=%s]", getEmail(), managerType);
