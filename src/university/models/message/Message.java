@@ -1,6 +1,7 @@
 package university.models.message;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import university.core.*;
 import university.models.employee.*;
 
@@ -41,5 +42,21 @@ public class Message {
         return "Message{from=" + sender + ", to=" + receiver
                 + ", subject='" + subject + "', urgency=" + urgency
                 + ", signed=" + isSignedByDean + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message)) return false;
+        Message message = (Message) o;
+        return Objects.equals(sender, message.sender) &&
+                Objects.equals(receiver, message.receiver) &&
+                Objects.equals(subject, message.subject) &&
+                Objects.equals(sentDate, message.sentDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sender, receiver, subject, sentDate);
     }
 }

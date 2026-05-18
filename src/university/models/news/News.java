@@ -3,6 +3,7 @@ package university.models.news;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import university.core.*;
 
 public class News implements Comparable<News> {
@@ -45,15 +46,46 @@ public class News implements Comparable<News> {
         );
     }
 
-    public String getTitle() { return title; }
-    public String getTopic() { return topic; }
-    public boolean isPinned() { return isPinned; }
-    public List<String> getComments() { return comments; }
+    public String getTitle() { 
+        return title; 
+    }
+    public String getTopic() { 
+        return topic; 
+    }
+    public boolean isPinned() { 
+        return isPinned; 
+    }
+    public List<String> getComments() { 
+        return comments; 
+    }
+    public String getContent() { 
+        return content; 
+    }
+    public LocalDate getPublishedDate() { 
+        return publishedDate; 
+    }
+    public User getAuthor() { 
+        return author; 
+    }
 
     @Override
     public String toString() {
         return "News{title='" + title + "', topic='" + topic
                 + "', pinned=" + isPinned
                 + ", date=" + publishedDate + "}";
+    }
+
+     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof News)) return false;
+        News news = (News) o;
+        return Objects.equals(title, news.title) &&
+                Objects.equals(publishedDate, news.publishedDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, publishedDate);
     }
 }
