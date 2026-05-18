@@ -77,7 +77,8 @@ public class Mark {
 			return "F";
 		}
 	}
-	}
+
+	
 	public double getGpaPoints() {
 		double total = getTotal();
 		if(total >= 95){
