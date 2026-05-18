@@ -143,4 +143,35 @@ public abstract class User implements Notifiable  {
 	public int hashCode() {
 		return Objects.hash(id, email);
 	}
+
+	public void editProfileInput() {
+	System.out.println("--Edit profile--");
+
+	System.out.print("Enter ID (empty -> skip): ");
+	String idInput = input.nextLine().trim();
+	if (!idInput.isEmpty()) {
+		setId(idInput);
+	}
+
+	System.out.print("Enter first name (empty -> skip): ");
+	String firstNameInput = input.nextLine().trim();
+	if (!firstNameInput.isEmpty()) {
+		setFirstName(firstNameInput);
+	}
+
+	System.out.print("Enter last name (empty -> skip): ");
+	String lastNameInput = input.nextLine().trim();
+	if (!lastNameInput.isEmpty()) {
+		setLastName(lastNameInput);
+	}
+
+	System.out.print("Enter email (empty -> skip): ");
+	String emailInput = input.nextLine().trim();
+	if (!emailInput.isEmpty()) {
+		setEmail(emailInput);
+	}
+
+	System.out.println("Profile updated");
+	}
+
 }
