@@ -187,6 +187,9 @@ public class Teacher extends Employee implements Researcher {
 			case "INFO":
 				System.out.println(this);
 				break;
+			case "LOGOUT":
+				uSystem.logout();
+				break;
 			case "BACK":
 				return;
 			default:

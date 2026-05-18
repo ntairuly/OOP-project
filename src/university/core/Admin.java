@@ -210,6 +210,9 @@ public class Admin extends User implements Notifiable {
 			case "INFO":
 				System.out.println(toString());
 				break;
+			case "LOGOUT":
+				UniversitySystem.getInstance().logout();
+				break;
 			default:
 				System.out.println(Language.INSTANCE.get("UniversitySystem.invalidOption"));
 				break;

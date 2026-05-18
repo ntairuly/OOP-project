@@ -222,6 +222,7 @@ public class Student extends User  {
 				edit     - edit my profile (name / id)
 				change   - change password
 				info     - get info about yourself
+				logout   - to get back
 				""";
 		System.out.println(menuView);
 
@@ -253,6 +254,9 @@ public class Student extends User  {
 				break;
 			case "info":
 				System.out.println(this);
+				break;
+			case "logout":
+				UniversitySystem.getInstance().logout();
 				break;
 			default:
 				System.out.println("Not available function");
@@ -290,8 +294,8 @@ public class Student extends User  {
 		}
 	}
 
-	// Редактирование собственного профиля
-	protected void editProfileInput() {
+	// Редактирование our профиля
+	public void editProfileInput() {
 		System.out.println(Language.INSTANCE.get("Student.editPrompt"));
 		String field = input.nextLine().trim().toLowerCase();
 

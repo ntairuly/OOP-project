@@ -204,11 +204,16 @@ public class UniversitySystem {
         return false;
     }
 
-    private void logout() {
+    public void logout() {
         System.out.println(Language.INSTANCE.get("UniversitySystem.logout"));
         isLoggedIn = false;
         myEmail = "";
         myPassword = "";
         myUser = null;
+    }
+
+    public void shutdown() {
+        logout();
+        isRunning = false;
     }
 }

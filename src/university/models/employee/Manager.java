@@ -155,6 +155,7 @@ public class Manager extends Employee {
 		msg      - send message
 		change   - change password
 		info     - get info about yourself
+		logout   - to logout
 		exit     - exit panel
 		""";
 
@@ -188,6 +189,9 @@ public class Manager extends Employee {
 				break;
 			case "INFO":
 				System.out.println(this);
+				break;
+			case "LOGOUT":
+				uSystem.logout();
 				break;
 			case "EXIT":
 				return;

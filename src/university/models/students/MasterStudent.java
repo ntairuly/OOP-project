@@ -80,6 +80,7 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 				edit     - edit my profile (name / id)
 				change   - change password
 				info     - get info about yourself
+				logout   - to get back
 				""";
 		System.out.println(menuView);
 
@@ -128,6 +129,9 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 				break;
 			case "info":
 				System.out.println(this);
+				break;
+			case "logout":
+				UniversitySystem.getInstance().logout();
 				break;
 			default:
 				System.out.println("Not available option");
