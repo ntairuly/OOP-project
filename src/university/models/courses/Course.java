@@ -1,14 +1,15 @@
 package university.models.courses;
 
-// Core Classes
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Objects;
 import university.core.*;
 import university.models.employee.*;
 import university.models.grading.*;
 import university.models.students.Student;
 
-public class Course {
+public class Course implements Comparable<Course>{
 
 	private String courseId;
 	private String name;
@@ -25,39 +26,99 @@ public class Course {
 		this.name = name;
 		this.credits = credits;
 		this.courseType = courseType;
-		this.instructors = instructors;
-		this.lessons=lessons;
+		this.instructors = new ArrayList<>();
+		this.lessons= new ArrayList<>();
 		this.school=school;
-		this.enrolledStudents = enrolledStudents;
+		this.enrolledStudents = new ArrayList<>();
 		this.targetYear = targetYear;
 	}
 
 
+
+	//геттеры
+	public String getCourseId(){
+		return courseId;
+	}
+	public String getName(){
+		return name;
+	}
+	public CourseType getCourseType(){
+		return courseType;
+	}
 	public int getCredits() {
 		return credits;
 	}
-
-	public String getName() {
-		return name;
+	public List<Teacher> getInstructors() {
+		return instructors;
+	}
+	public List<Lesson> getLessons() {
+		return lessons;
+	}
+	public List<Student> getEnrolledStudents(){
+		return enrolledStudents;
+	}
+	public String getSchoole(){
+		return school;
+	}
+	public int getTargetYear(){
+		return targetYear;
 	}
 
-	public String getCourseId() {
-		return courseId;
+
+	
+	//сеттеры
+	public void setCourseType(CourseType type){
+		this.courseType = type;
 	}
 
-	public void addInstructor() {
-		// TODO - implement Course.addInstructor
-		throw new UnsupportedOperationException();
+
+	public void addInstructor(Teacher teacher) {
+        if (!instructors.contains(teacher)) {
+            instructors.add(teacher);
+            System.out.println("Added instructor: "
+                + teacher.getEmail());
+        }
+    }
+
+	public void addLesson(Lesson lesson) {
+        lessons.add(lesson);
+    }
+
+
+
+	public void enrollStudent(Student student) {
+        if (!enrolledStudents.contains(student)) {
+            enrolledStudents.add(student);
+        }
+    }
+
+
+	public Mark getStudentMark(Student student) {
+        return student.getMarks().get(this);
+    }
+
+
+	@Override
+	public int compareTo(Course other){
+		return this.name.compareTo(other.name);
 	}
 
-	public Mark getStudentMark() {
-		// TODO - implement Course.getStudentMark
-		throw new UnsupportedOperationException();
+	@Override
+	public String toString(){
+		return String.format(
+            "[%s] %s | %d credits | %s | School: %s | Year: %d", courseId, name, credits,
+            courseType, school, targetYear);
 	}
 
-	public int compareTo() {
-		// TODO - implement Course.compareTo
-		throw new UnsupportedOperationException();
+	@Override
+	public boolean equals(Object o){
+		if(this == o) return true;
+		if(!(o instanceof Course)) return false;
+		Course c = (Course) o;
+		return Objects.equals(courseId, c.courseId);
 	}
 
+	@Overridepublic int hashCode(){
+		return Objects.hash(courseId);
+	}
 }
