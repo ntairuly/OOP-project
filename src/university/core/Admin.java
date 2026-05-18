@@ -11,7 +11,6 @@ import university.models.other.*;
 public class Admin extends User implements Notifiable {
 
 	private static List<String> logs = new ArrayList<>();
-	private static String action;
 	static Scanner input = new Scanner(System.in);
 
 	private Admin(String email, String password) {
@@ -218,7 +217,23 @@ public class Admin extends User implements Notifiable {
 	}
 
 	@Override
+	public void update() {
+		System.out.println("Notification!");
+	}
+	
+	@Override
 	public void update(String message) {
 		System.out.println(Language.INSTANCE.get("Admin.notification") + message);
+	}
+
+	@Override
+	public String toString() {
+		String name = firstName + " " + lastName;
+		return String.format(
+			Language.INSTANCE.get("Admin.toString"),
+			id,
+			name,
+			email
+		);
 	}
 }

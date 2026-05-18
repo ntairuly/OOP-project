@@ -32,7 +32,7 @@ public class Journal {
 
     public void sendNotifications() {
         for (Notifiable subscriber : subscribers) {
-            subscriber.update();
+            subscriber.update("");
         }
     }
 

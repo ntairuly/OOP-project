@@ -3,7 +3,6 @@ package university.models.students;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
 import university.core.UniversitySystem;
 import university.exceptions.LowHIndexException;
 import university.models.research.*;
@@ -218,7 +217,7 @@ public class MasterStudent extends GraduateStudent implements Researcher {
 
 
 	@Override
-	public void update() {
+	public void update(String message) {
 		System.out.println("Master Student "+ getStudentId()+" received notification");
 	}
 }

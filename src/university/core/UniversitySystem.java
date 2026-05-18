@@ -3,6 +3,7 @@ package university.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import university.core.factory.*;
 import university.models.courses.Course;
 import university.models.employee.Teacher;
 import university.models.message.Message;
@@ -10,6 +11,7 @@ import university.models.news.NewsList;
 import university.models.other.Language;
 import university.models.research.ResearchProject;
 import university.models.students.Student;
+
 
 public class UniversitySystem {
     private static UniversitySystem obj;
@@ -27,7 +29,23 @@ public class UniversitySystem {
     static Scanner input = new Scanner(System.in);
 
     protected UniversitySystem() {
-        Admin.createSuperAdmin(this);
+        Admin.createSuperAdmin(obj);
+
+        AdminFactory adminFactory = AdminFactory.createFactory(obj);
+        adminFactory.addUser("admin1@kbtu.kz", "AdminPass123");
+        adminFactory.addUser("admin2@kbtu.kz", "AdminPass456");
+
+        ManagerFactory managerFactory = ManagerFactory.createFactory(obj);
+        managerFactory.addUser("manager1@kbtu.kz", "ManagerPass123");
+        managerFactory.addUser("manager2@kbtu.kz", "ManagerPass456");
+
+        TeacherFactory teacherFactory = TeacherFactory.createFactory(obj);
+        teacherFactory.addUser("teacher1@kbtu.kz", "TeacherPass123");
+        teacherFactory.addUser("teacher2@kbtu.kz", "TeacherPass456");
+
+        StudentFactory studentFactory = StudentFactory.createFactory(obj);
+        studentFactory.addUser("student1@kbtu.kz", "StudentPass123");
+        studentFactory.addUser("student2@kbtu.kz", "StudentPass456");
     }
 
     // Getters
@@ -46,6 +64,7 @@ public class UniversitySystem {
     public NewsList getNewsList() { 
         return newsList; 
     }
+
 
     public static synchronized UniversitySystem getInstance() {
         if (obj == null) obj = new UniversitySystem();
@@ -87,11 +106,11 @@ public class UniversitySystem {
         if(studentId == null){
             return null;
         }
-        for (User u : users){
-            if (u instanceof Student){
-                Student s = (Student) u;
-                if(studentId.equalsIgnoreCase(s.getStudentId())){
-                    return s;
+        for (User user : users){
+            if (user instanceof Student){
+                Student student = (Student) user;
+                if(studentId.equalsIgnoreCase(student.getStudentId())){
+                    return student;
                 }
             }
         }
@@ -115,9 +134,13 @@ public class UniversitySystem {
     }
 
     public void addCourse(Course course) {
-        if (course != null && !courses.contains(course)) {
+        if (!courses.contains(course)){
             courses.add(course);
         }
+    }
+
+    public void addMessage(Message m) {
+        messages.add(m);
     }
 
 
@@ -145,7 +168,7 @@ public class UniversitySystem {
         }
 
         isLoggedIn = login(myEmail, myPassword);
-                
+
         if (isLoggedIn) {
             System.out.println(Language.INSTANCE.get("UniversitySystem.successlog"));
             while (myUser.isFirstLogin) {
@@ -158,22 +181,7 @@ public class UniversitySystem {
             }
 
     private void mainMenu(){
-        System.out.println(Language.INSTANCE.get("UniversitySystem.menuTitle"));
-        System.out.println(Language.INSTANCE.get("UniversitySystem.menuOptions"));
-        System.out.println(Language.INSTANCE.get("UniversitySystem.optionProfile"));
-        System.out.println(Language.INSTANCE.get("UniversitySystem.optionPassword"));
-        System.out.println(Language.INSTANCE.get("UniversitySystem.optionLogout"));
-        System.out.print(Language.INSTANCE.get("UniversitySystem.chooseOption") + " ");
-        String option = input.nextLine(); 
-        if (option.equals("1")){
-            System.out.println(this.myUser);
-        } else if (option.equals("2")){
-            myUser.changePasswordInput();
-        } else if (option.equals("3")){
-            logout();
-        } else {
-            System.out.println(("UniversitySystem.invalidOption"));
-        }
+        myUser.userMenu();
     }
 
     // Login and logout logic
