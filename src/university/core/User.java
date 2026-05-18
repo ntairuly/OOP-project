@@ -10,13 +10,13 @@ import university.models.other.*;
 
 public abstract class User implements Notifiable  {
 
-	protected boolean isFirstLogin = true;
-	private String id = "Unknown";
-	private String firstName = "Unknown";
-	private String lastName = "Unknown";
-	private String email;
-	private String password;
-	private List<Journal> SubsсribedJournals;
+	public boolean isFirstLogin = true;
+	public String id = "Unknown";
+	public String firstName = "Unknown";
+	public String lastName = "Unknown";
+	public String email;
+	protected String password;
+	public List<Journal> SubsсribedJournals;
 	protected Scanner input = new Scanner(System.in);
 
 	public User(String email, String password) {

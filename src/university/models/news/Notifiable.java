@@ -4,4 +4,6 @@ public interface Notifiable {
 
 	void update(String message);
 
+	void update();
+
 }

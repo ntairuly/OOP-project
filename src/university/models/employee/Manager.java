@@ -1,10 +1,8 @@
 package university.models.employee;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import university.core.*;
 import university.models.courses.Course;
 import university.models.message.*;
@@ -145,12 +143,72 @@ public class Manager extends Employee {
 	}
 
 	@Override
+	public void userMenu() {
+		String menuView = """
+		--Manager Panel--
+		approve  - approve registration requests
+		assign   - assign teacher to course
+		add      - add course
+		report   - generate report
+		news     - manage news
+		gpa      - view students sorted by GPA
+		msg      - send message
+		change   - change password
+		info     - get info about yourself
+		back     - exit panel
+		""";
+
+		System.out.println(menuView);
+		String command = input.nextLine().toUpperCase();
+
+		switch (command) {
+			case "APPROVE":
+				approveRegistration();
+				break;
+			case "ASSIGN":
+				assignTeacher();
+				break;
+			case "ADD":
+				addCourse();
+				break;
+			case "REPORT":
+				generateReport();
+				break;
+			case "NEWS":
+				manageNews();
+				break;
+			case "GPA":
+				viewStudentsSortedByGpa();
+				break;
+			case "MSG":
+				sendMessage();
+				break;
+			case "CHANGE":
+				changePasswordInput();
+				break;
+			case "INFO":
+				System.out.println(this);
+				break;
+			case "back":
+				return;
+			default:
+				System.out.println("Not available option");
+				break;
+		}
+	}
+
+	@Override
 	public void update(String message) {
 		System.out.println("Manager notification: " + message);
 	}
 
 	@Override
-	public String toString(){
-		return "";
+	public void update() {
+		System.out.println("Notification!");
+	}
+	
+	@Override
+	public String toString() {
+    	return String.format("Manager[email=%s, type=%s]", getEmail(), managerType);
 	}
 }

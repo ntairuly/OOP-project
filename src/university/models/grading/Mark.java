@@ -1,12 +1,8 @@
 package university.models.grading;
 
-import university.core.*;
+import java.util.Objects;
 import university.models.courses.*;
 import university.models.students.Student;
-
-import java.util.Objects;
-
-import static java.lang.String.format;
 
 public class Mark {
 
@@ -131,8 +127,6 @@ public class Mark {
 	}
 
 
-	
-	@Override
 	public int compareTo(Mark other){
 		return Double.compare(other.getTotal(), this.getTotal());
 	}

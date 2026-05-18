@@ -2,7 +2,6 @@ package university.models.employee;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import university.core.*;
 import university.models.courses.*;
 import university.models.grading.Mark;
@@ -154,7 +153,60 @@ public class Teacher extends Employee implements Researcher {
 	}
 
 	@Override
+	public void userMenu() {
+		String menuView = """
+		--Teacher Panel--
+		marks   - put mark
+		students- view students
+		trans   - get student transcript
+		msg     - send complaint
+		change  - change password
+		info    - get info about yourself
+		back    - exit panel
+		""";
+
+		System.out.println(menuView);
+		String command = input.nextLine().toUpperCase();
+
+		switch (command) {
+			case "MARKS":
+				putMark();
+				break;
+			case "STUDENTS":
+				viewStudents();
+				break;
+			case "TRANS":
+				System.out.println(getTranscript());
+				break;
+			case "MSG":
+				sendComplaint();
+				break;
+			case "CHANGE":
+				changePasswordInput();
+				break;
+			case "INFO":
+				System.out.println(this);
+				break;
+			case "BACK":
+				return;
+			default:
+				System.out.println("Invalid option");
+				break;
+		}
+	}
+	@Override
 	public void update(String message) {
 		System.out.println("Teacher notification: " + message);
 	}
+
+	@Override
+	public void update() {
+		System.out.println("Notification!");
+	}
+
+	@Override
+	public String toString() {
+    	return String.format("Teacher[email=%s, title=%s, rating=%.2f]",
+            				getEmail(), title, rating);
+}
 }

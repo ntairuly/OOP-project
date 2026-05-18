@@ -1,14 +1,11 @@
 package university.models.students;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
 import university.core.UniversitySystem;
 import university.exceptions.LowHIndexException;
-import university.models.courses.Course;
-import university.models.grading.Mark;
 import university.models.research.*;
-import java.util.ArrayList;
 public class PhDStudent extends GraduateStudent implements Researcher {
 
 	private int studyYears = 3;
