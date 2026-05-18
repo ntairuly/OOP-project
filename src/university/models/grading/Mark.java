@@ -46,8 +46,41 @@ public class Mark {
 	}
 
 	public String getLetterGrade() {
-		// TODO - implement Mark.getLetterGrade
-		throw new UnsupportedOperationException();
+		double total = getTotal();
+		if(total >= 95){
+			return "A";
+		}
+		if(total >= 90){
+			return "A-";
+		}
+		if(total >= 85){
+			return "B+";
+		}
+		if(total >= 80){
+			return "B";
+		}
+		if(total >= 75){
+			return "B-";
+		}
+		if(total >= 70){
+			return "C+";
+		}
+		if(total >= 65){
+			return "C";
+		}
+		if(total >= 60){
+			return "C-";
+		}
+		if(total >= 55){
+			return "D+";
+		}
+		if(total >= 50){
+			return "D";
+		}
+		else{
+			return "F";
+		}
+	}
 	}
 	public double getGpaPoints() {
 		double total = getTotal();

@@ -1,6 +1,5 @@
 package university.models.courses;
 
-// Core Classes
 
 import java.util.ArrayList;
 import java.util.List;

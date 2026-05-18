@@ -1,7 +1,7 @@
 package university.models.courses;
 
-// Core Classes
 
+import java.util.Objects;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import university.models.employee.*;
